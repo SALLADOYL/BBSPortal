@@ -9,7 +9,7 @@ Public Class ClientServiceData
     Public Function SaveNewClientService(ByRef cisClientService As CISEntity.ClientServiceEntity, ByVal prflID As Long) As Boolean
 
         Dim strSQL As String
-        strSQL = "INSERT INTO [dbo].[CLIENTSERVICETBL] "
+        strSQL = "SET @CreateDate = GETDATE(); INSERT INTO [dbo].[CLIENTSERVICETBL] "
         'strSQL = strSQL + " ([CLIENTCODE] "
         strSQL = strSQL + " ([CLIENTID] "
         strSQL = strSQL + " ,[SVCID] "
@@ -30,6 +30,10 @@ Public Class ClientServiceData
         Else
             strSQL = strSQL + ",0" ',[PURGEFLG]
         End If
+        strSQL = strSQL + ",@CreateDate" ',[CRTDT]
+        strSQL = strSQL + ",'" + cisClientService.CreatedBy.ToString + "'" ',[CRTBY]
+        strSQL = strSQL + ",@CreateDate" ',[UPDDT]
+        strSQL = strSQL + ",'" + cisClientService.UpdatedBy.ToString + "'" ',[UPDBY]
         strSQL = strSQL & "); SET @NEWCLIENTSVCID = SCOPE_IDENTITY();"
 
         Dim objParams(0) As SqlParameter
@@ -66,6 +70,8 @@ Public Class ClientServiceData
         Else
             strSQL = strSQL + " ,[PURGEFLG]=0" ',[PURGEFLG]
         End If
+        strSQL = strSQL + ",[UPDDT] = @NewUpdateDate"
+        strSQL = strSQL + ",[UPDBY] = '" + prflID.ToString + "'"
         strSQL = strSQL + " WHERE [CLIENTSVCID]=" + cisClientService.ClientServiceID.ToString
 
         Dim objParams(0) As SqlParameter

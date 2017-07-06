@@ -73,22 +73,7 @@
                         <%--<li><a runat="server" href="~/Support">Support</a></li>--%>
                         <li><a runat="server" href="~/Logout">Logout</a></li>
                     </ul>
-                    <%--<asp:LoginView runat="server" ViewStateMode="Disabled">
-                        <AnonymousTemplate>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/Account/Register">Register</a></li>
-                                <li><a runat="server" href="~/Login">Log in</a></li>
-                            </ul>
-                        </AnonymousTemplate>
-                        <LoggedInTemplate>
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a runat="server" href="~/Account/Manage" title="Manage your account">Hello!</a></li>
-                                <li>
-                                    <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
-                                </li>
-                            </ul>
-                        </LoggedInTemplate>
-                    </asp:LoginView>--%>
+                    
                 </div>
             </div>
 
@@ -107,7 +92,7 @@
                                 <ul class="sidemenu">
                                     <li><a href="../Client/">Client&nbsp;Info&nbsp;Page</a></li>
                                     <%--<li><a href="../ClientService/">Client-Service&nbsp;Page</a></li>--%>
-                                    <li><a href="../Work/">Service-Job&nbsp;Page</a></li>
+                                    <li><a href="../ServiceJob/">Service-Job&nbsp;Page</a></li>
                                     <li><a href="../TechReport/">Tech-Report&nbsp;Page</a></li>
                                 </ul>
                             </div>
@@ -117,8 +102,10 @@
                                 <ul class="sidemenu">
                                     <li><a href="../ClientMetrics/">Client Metrics</a></li>
                                     <li><a href="../ServiceJobMetrics/">Service Job Metrics</a></li>
-                                    <li><a href="../TRMetrics/">Tech Report Metrics</a></li>
-                                    <li><a href="../Reports/">All Reports</a></li>
+                                    <li><a href="../TechReportMetrics/">Tech Report Metrics</a></li>
+                                    <li>
+                                        <a href="http://10.1.1.18/Reports/Pages/Folder.aspx?ItemPath=%2fClient+Information+System&ViewMode=List" target="_blank">All Reports</a>
+                                    </li>
                                 </ul>
                             </div>
 
@@ -127,9 +114,9 @@
                                 <ul class="sidemenu">
                                     <li><a href="../Device/">Device&nbsp;Maintenance</a></li>
                                     <li><a href="../Profile/">Profile&nbsp;Maintenance</a></li>
-                                    <li><a href="../Branch/">Branch</a></li>
-                                    <li><a href="../SystemAccess/">System Access</a></li>
-                                    <li><a href="../SystemConfig/">System Config</a></li>
+                                    <%--<li><a href="../Branch/">Branch</a></li>--%>
+                                    <li><a href="../RolesManagement/">System Access</a></li>
+                                    <%--<li><a href="../SystemConfig/">System Config</a></li>--%>
                                 </ul>
                             </div>
                         </div>
@@ -143,12 +130,12 @@
                 </tr>
             </table>
         </div>
-        
+        <footer style="background-color: black;">
+            <p>
+                <label>&copy; 2017 Security Systems Information Technology Department</label>
+            </p>
+        </footer>    
     </form>
-    <footer style="background-color: black;">
-        <p>
-            <label>&copy; <%: DateTime.Now.Year  %> Security Systems Information Technology Department</label>
-        </p>
-    </footer>
+    
 </body>
 </html>

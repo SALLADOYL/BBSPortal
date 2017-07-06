@@ -52,4 +52,49 @@ Public Class ClientServiceEntity
         End Set
     End Property
 
+    Private dtCreateDate As DateTime
+    Private lngCreatedBy As Long
+    Private dtUpdateDate As DateTime
+    Private lngUpdatedBy As Long
+    Private tmpTimeStamp As String
+
+    Public Property CreateDate As DateTime
+        Get
+            Return dtCreateDate
+        End Get
+        Set(value As DateTime)
+            dtCreateDate = value
+        End Set
+    End Property
+
+    Public Property CreatedBy As Long
+        Get
+            Return lngCreatedBy
+        End Get
+        Set(value As Long)
+            lngCreatedBy = value
+        End Set
+    End Property
+
+    Public Property UpdateDate As DateTime
+        Get
+            Return dtUpdateDate
+
+        End Get
+        Set(value As DateTime)
+            dtUpdateDate = value
+
+        End Set
+    End Property
+
+    Public Property UpdatedBy As Long
+        Get
+            Return lngUpdatedBy
+        End Get
+        Set(value As Long)
+            lngUpdatedBy = value
+
+        End Set
+    End Property
+
 End Class

@@ -46,9 +46,9 @@ Public Class DeviceData
         strSQL = strSQL + ",'" + cisDevice.SerialNumber + "'" ',
         strSQL = strSQL + ",'" + cisDevice.DeviceSpecifications + "'" ',
         strSQL = strSQL + ",'" + cisDevice.Status + "'" ',
-        strSQL = strSQL + ",'" + cisDevice.ManufactureDate.ToString + "'" ',
+        strSQL = strSQL + ",'" + cisDevice.ManufactureDate.ToString("MM/dd/yyyy HH:mm:ss") + "'" ',
 
-        strSQL = strSQL + ",'" + cisDevice.ReceiveDate.ToString + "'" ',
+        strSQL = strSQL + ",'" + cisDevice.ReceiveDate.ToString("MM/dd/yyyy HH:mm:ss") + "'" ',
         If cisDevice.IsAvailable Then
             strSQL = strSQL + ",1" ',[ISAVAILABLE]
         Else
@@ -119,8 +119,8 @@ Public Class DeviceData
         strSQL = strSQL + ",[SERIALNUMBER] = '" + cisDeviceEntity.SerialNumber + "'"
         strSQL = strSQL + ",[DEVICESPECS] = '" + cisDeviceEntity.DeviceSpecifications + "'"
         strSQL = strSQL + ",[STATUS] = '" + cisDeviceEntity.Status + "'"
-        strSQL = strSQL + ",[MANUFACTUREDATE] = '" + cisDeviceEntity.ManufactureDate.ToString + "'"
-        strSQL = strSQL + ",[RECEIVEDATE] = '" + cisDeviceEntity.ReceiveDate.ToString + "'"
+        strSQL = strSQL + ",[MANUFACTUREDATE] = '" + cisDeviceEntity.ManufactureDate.ToString("MM/dd/yyyy HH:mm:ss") + "'"
+        strSQL = strSQL + ",[RECEIVEDATE] = '" + cisDeviceEntity.ReceiveDate.ToString("MM/dd/yyyy HH:mm:ss") + "'"
         If cisDeviceEntity.IsAvailable Then
             strSQL = strSQL + ",[ISAVAILABLE]=1" ',[ISAVAILABLE]
         Else
@@ -228,9 +228,9 @@ Public Class DeviceData
                         .ReceiveDate = CType(curRow("RECEIVEDATE"), DateTime) ',RECEIVEDATE
 
                         If CType(curRow("ISAVAILABLE"), Integer) <> 0 Then ',ISAVAILABLE
-                            .IsActiveFlag = True
+                            .IsAvailable = True
                         Else
-                            .IsActiveFlag = False
+                            .IsAvailable = False
                         End If
 
                         .IPAddress = CType(curRow("IPADDRESS"), String) ',IPADDRESS
@@ -309,9 +309,9 @@ Public Class DeviceData
                         .ReceiveDate = CType(curRow("RECEIVEDATE"), DateTime) ',RECEIVEDATE
 
                         If CType(curRow("ISAVAILABLE"), Integer) <> 0 Then ',ISAVAILABLE
-                            .IsActiveFlag = True
+                            .IsAvailable = True
                         Else
-                            .IsActiveFlag = False
+                            .IsAvailable = False
                         End If
 
                         .IPAddress = CType(curRow("IPADDRESS"), String) ',IPADDRESS
@@ -794,23 +794,28 @@ Public Class DeviceData
     Public Function GetDevicesNotInTechRep(ByVal TechRepID As Long) As DataTable
         Dim strsql As String = ""
 
+
         strsql &= " SELECT "
-        strsql &= " DEVICETBL.DEVID, "
-        strsql &= " DEVICETBL.ITEMCODE, "
-        strsql &= " DEVICETBL.DEVICETYPE, "
-        strsql &= " DEVICETBL.DEVICENAME, "
-        strsql &= " DEVICETBL.STATUS "
-        strsql &= " FROM SERVICETBL INNER JOIN CLIENTSERVICETBL "
-        strsql &= " ON SERVICETBL.SVCID = CLIENTSERVICETBL.SVCID INNER JOIN TECHREPORTTBL INNER JOIN CLIENTSERVICEDEVICETBL "
-        strsql &= " ON TECHREPORTTBL.CLIENTSVCID = CLIENTSERVICEDEVICETBL.CLIENTSVCID INNER JOIN DEVICETBL "
-        strsql &= " ON CLIENTSERVICEDEVICETBL.DEVID = DEVICETBL.DEVID "
-        strsql &= " ON CLIENTSERVICETBL.CLIENTSVCID = CLIENTSERVICEDEVICETBL.CLIENTSVCID "
-        strsql &= " WHERE "
-        strsql &= " (TECHREPORTTBL.TECHREPID IN (" + TechRepID.ToString + ") AND TECHREPORTTBL.ISACTIVEFLG= 1 AND TECHREPORTTBL.PURGEFLG=0) "
-        strsql &= " AND (DEVICETBL.ISACTIVEFLG= 1 AND DEVICETBL.PURGEFLG=0) "
-        strsql &= " AND (CLIENTSERVICETBL.ISACTIVE = 1) AND  (CLIENTSERVICETBL.PURGEFLG = 0) "
-        strsql &= " AND CLIENTSERVICEDEVICETBL.ISACTIVEFLG=1 AND CLIENTSERVICEDEVICETBL.PURGEFLG=0"
-        strsql &= " AND (DEVICETBL.DEVID NOT IN (SELECT AFFECTEDDEVICETBL.DEVID  FROM AFFECTEDDEVICETBL WHERE AFFECTEDDEVICETBL.TECHREPID = " + TechRepID.ToString + " )) "
+        strsql &= " DEVICETBL.DEVID, DEVICETBL.ITEMCODE, DEVICETBL.DEVICETYPE, DEVICETBL.DEVICENAME, DEVICETBL.STATUS "
+        strsql &= " FROM     "
+        strsql &= " CLIENTSERVICEDEVICETBL INNER JOIN "
+        strsql &= " DEVICETBL ON CLIENTSERVICEDEVICETBL.DEVID = DEVICETBL.DEVID LEFT OUTER JOIN "
+        strsql &= " AFFECTEDDEVICETBL ON DEVICETBL.DEVID = AFFECTEDDEVICETBL.DEVID "
+        strsql &= "  WHERE  "
+        strsql &= "  CLIENTSERVICEDEVICETBL.CLIENTSVCID IN  "
+        strsql &= " (SELECT TECHREPORTTBL.CLIENTSVCID FROM TECHREPORTTBL WHERE TECHREPORTTBL.TECHREPID=" + TechRepID.ToString + ")  "
+        strsql &= " And CLIENTSERVICEDEVICETBL.ISACTIVEFLG = 1 AND CLIENTSERVICEDEVICETBL.PURGEFLG=0  "
+        strsql &= " And (DEVICETBL.DEVID NOT IN (SELECT AFFECTEDDEVICETBL.DEVID  FROM AFFECTEDDEVICETBL WHERE AFFECTEDDEVICETBL.TECHREPID =  " + TechRepID.ToString + "))  "
+
+        'strsql &= " SELECT "
+        'strsql &= "  DEVICETBL.DEVID, DEVICETBL.ITEMCODE, DEVICETBL.DEVICETYPE, DEVICETBL.DEVICENAME, DEVICETBL.STATUS"
+        'strsql &= " FROM "
+        'strsql &= " CLIENTSERVICEDEVICETBL INNER JOIN "
+        'strsql &= " DEVICETBL On CLIENTSERVICEDEVICETBL.DEVID = DEVICETBL.DEVID "
+        'strsql &= " WHERE CLIENTSERVICEDEVICETBL.CLIENTSVCID IN (SELECT TECHREPORTTBL.CLIENTSVCID FROM TECHREPORTTBL WHERE TECHREPORTTBL.TECHREPID=" + TechRepID.ToString + ")"
+        'strsql &= " And CLIENTSERVICEDEVICETBL.ISACTIVEFLG = 1 AND CLIENTSERVICEDEVICETBL.PURGEFLG=0"
+        'strsql &= " And (DEVICETBL.DEVID NOT IN (SELECT AFFECTEDDEVICETBL.DEVID  FROM AFFECTEDDEVICETBL WHERE AFFECTEDDEVICETBL.TECHREPID = " + TechRepID.ToString + " ))  "
+
 
         Dim objCommon As New CISData.CommonClass
         Return SQLHelper.ExecuteTable(objCommon.GetConnString, CommandType.Text, strsql)
@@ -820,7 +825,7 @@ Public Class DeviceData
         Dim strSQL As String
 
         strSQL = " SELECT "
-        strSQL = strSQL + " AFFECTEDDEVICETBL.AFFECTEDDEVICEID, DEVICETBL.ITEMCODE, DEVICETBL.DEVICENAME, DEVICETBL.STATUS"
+        strSQL = strSQL + " AFFECTEDDEVICETBL.AFFECTEDDEVICEID,DEVICETBL.DEVID, DEVICETBL.ITEMCODE, DEVICETBL.DEVICENAME, DEVICETBL.STATUS"
         strSQL = strSQL + " FROM"
         strSQL = strSQL + " DEVICETBL INNER JOIN"
         strSQL = strSQL + " AFFECTEDDEVICETBL ON DEVICETBL.DEVID = AFFECTEDDEVICETBL.DEVID"

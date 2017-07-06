@@ -101,6 +101,23 @@ Public Class TechReportModel
     End Function
 
 
+    Public Function UploadSaveNewAttachment(ByRef cisFile As CISEntity.FileAttachEntity, ByVal prflID As Long) As Long
+        Dim dataFile As New CISData.FileAttachData
+        dataFile.SaveNew(cisFile, prflID)
+        dataFile = Nothing
+        Return cisFile.FileID
+
+    End Function
+
+    Public Function FilePurge(ByVal FILEID As Long, ByVal prflID As Long) As Boolean
+        Dim dataFile As New CISData.FileAttachData
+        Return dataFile.Purge(FILEID, prflID)
+    End Function
+
+    Public Function GetTechReportAttachmentsList(ByVal TRID As Long) As DataTable
+        Dim dataFile As New CISData.FileAttachData
+        Return dataFile.GetTechReportAttachmentsList(TRID)
+    End Function
 
     Public Function GetClientListForSearch() As List(Of ClientEntity)
         Dim dataClient As New CISData.ClientData
@@ -128,8 +145,7 @@ Public Class TechReportModel
     Public Function PurgeTechRepAffectedDevices(ByVal AFFECTEDDEVICEID As Long) As Boolean
         Dim dataDevice As New CISData.DeviceData
         Return dataDevice.RemoveAffectedDevice(AFFECTEDDEVICEID)
-        Return Nothing
-        dataDevice = Nothing
+
     End Function
 
 

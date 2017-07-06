@@ -223,6 +223,8 @@ Public Class _default4
 
         modProfile.Save(entProfile, GetUserProfile.ProfileID)
 
+        PopulatePersonalInfo(entProfile.ProfileID)
+
         'ALERT FOR SUCCESSFUL SAVE
         Dim strAlert As String = "Profile Information Saved"
 
@@ -251,4 +253,100 @@ Public Class _default4
 
     End Sub
 
+    Private Function VerifyFileAsImage(ByVal strContentType As String) As Boolean
+        If strContentType.ToLower <> "image/jpg" And strContentType.ToLower <> "image/jpeg" _
+            And strContentType.ToLower <> "image/pjpeg" And strContentType.ToLower <> "image/gif" _
+             And strContentType.ToLower <> "image/x-png" And strContentType.ToLower <> "image/png" Then
+            Return False
+        End If
+
+        Return True
+    End Function
+
+    Private Sub btnUploadSavePhoto_Click(sender As Object, e As EventArgs) Handles btnUploadSavePhoto.Click
+        Dim objWebUtility As New CISData.WebUtility
+        If Not IsNothing(Me.fileInput1.PostedFile) AndAlso fileInput1.PostedFile.ContentLength > 0 Then
+            If Me.fileInput1.PostedFile.ContentLength < objWebUtility.GetPictureFileLimit Then
+
+                If VerifyFileAsImage(Me.fileInput1.PostedFile.ContentType) Then
+                    Dim Fn As String = System.IO.Path.GetFileName(Me.fileInput1.PostedFile.FileName)
+                    Dim strFileName As String = "ID-" + Me.txtEmployeeCode.Text + "-" + Now.ToString("yyyyMMddhhmmss") + "-" + Fn
+                    Dim strFilePath As String = objWebUtility.GetIDPicSavePath + strFileName
+                    Dim strFTPFilePath As String = objWebUtility.GetWebAppURLPicPath + strFileName
+
+                    Dim SaveLoc As String = strFilePath
+                    fileInput1.PostedFile.SaveAs(SaveLoc)
+
+                    Dim mdlProfile As New CISModel.ProfileModel
+                    mdlProfile.SaveProfilePhoto(CType(Me.txtProfileID.Text, Long), strFTPFilePath, GetUserProfile.ProfileID)
+                    mdlProfile = Nothing
+
+                    Me.mpeUploadPhoto.Hide()
+                    Me.imgPhoto.ImageUrl = strFTPFilePath
+                Else
+                    Dim strErr As String = "File is not a valid image, please select a file again."
+
+                    Dim objAlert As New DynamicClientScript
+                    objAlert.ShowMessage(Me.Page, strErr)
+                    objAlert = Nothing
+                End If
+
+            Else
+                Dim strErr As String = "File to upload is too big. Limit filesize to less than 4mb."
+
+                Dim objAlert As New DynamicClientScript
+                objAlert.ShowMessage(Me.Page, strErr)
+                objAlert = Nothing
+            End If
+
+        Else
+            Dim strErr As String = "No file selected for upload."
+
+            Dim objAlert As New DynamicClientScript
+            objAlert.ShowMessage(Me.Page, strErr)
+            objAlert = Nothing
+
+        End If
+
+        objWebUtility = Nothing
+    End Sub
+
+    Private Function ValidateUsernameIsUnique(ByVal ProfileID As Long, ByVal Username As String) As Boolean
+        Dim mdlprofile As New CISModel.ProfileModel
+        Return mdlprofile.ValidateUsernameIsUnique(ProfileID, Username)
+        mdlprofile = Nothing
+    End Function
+
+    Private Sub btnSaveUsrPwd_Click(sender As Object, e As EventArgs) Handles btnSaveUsrPwd.Click
+        Dim mdlprofile As New CISModel.ProfileModel
+        'verify username and password is not blank
+        If Me.txtUsername.Text.Length > 0 AndAlso Me.txtPassword.Text.Length > 0 Then
+
+            If ValidateUsernameIsUnique(CType(Me.txtProfileID.Text, Long), Me.txtUsername.Text) Then
+                Dim isSaved As Boolean
+                isSaved = mdlprofile.SaveProfileUsrnamePwd(CType(Me.txtProfileID.Text, Long), Me.txtUsername.Text, Me.txtPassword.Text, GetUserProfile.ProfileID)
+
+                Dim strErr As String = "Username and Password has been saved."
+
+                Dim objAlert As New DynamicClientScript
+                objAlert.ShowMessage(Me.Page, strErr)
+                objAlert = Nothing
+
+                mpeProfileAccess.Hide()
+                Me.txtPassword.Text = ""
+            Else
+                Dim strErr As String = "Username already exist, please change the username."
+
+                Dim objAlert As New DynamicClientScript
+                objAlert.ShowMessage(Me.Page, strErr)
+                objAlert = Nothing
+            End If
+        Else
+            Dim strErr As String = "Please input a valid Username and Password"
+
+            Dim objAlert As New DynamicClientScript
+            objAlert.ShowMessage(Me.Page, strErr)
+            objAlert = Nothing
+        End If
+    End Sub
 End Class

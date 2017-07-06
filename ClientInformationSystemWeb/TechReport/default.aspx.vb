@@ -1,4 +1,9 @@
-﻿Public Class _default6
+﻿Imports CISEntity
+Imports CISModel
+Imports CISData
+Imports System.Data.SqlClient
+
+Public Class _default6
     Inherits System.Web.UI.Page
 
     Private Sub PopulateDDPoNumber(ByVal ClSvcID As Long)
@@ -48,6 +53,7 @@
             PopulateClientServiceInfoParent(TechRepID)
             PopulateAffectedDevicesGrid(TechRepID)
             PopulateClientDevicesNotAddedinTR()
+            PopulateAttachmentGrid(TechRepID)
 
         ElseIf IsNothing(entTR) AndAlso TechRepID = 0 Then
             Me.txtTRID.Text = "0"
@@ -68,8 +74,9 @@
 
             PopulateClientServiceInfoParent(TechRepID)
             PopulateAffectedDevicesGrid(TechRepID)
-            PopulateDDPoNumber(0)
+            PopulateDDPoNumber(TechRepID)
             PopulateClientDevicesNotAddedinTR()
+            PopulateAttachmentGrid(TechRepID)
         Else
             Dim objAlert As New DynamicClientScript
             objAlert.ShowMessage(Me.Page, "The Technical Report Information does not exist!")
@@ -202,7 +209,7 @@
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         currentTechRepID = CType(Request.QueryString("ID"), Long)
-        
+
         If Not Page.IsPostBack Then
             PopulateDDClientSearch()
             PopulateDDServiceSearch()
@@ -228,11 +235,13 @@
     End Sub
 
     Private Sub btnStartDTSearch_Click(sender As Object, e As EventArgs) Handles btnStartDTSearch.Click
-        Dim modTR As New CISModel.TechReportModel
+
 
         If IsDate(Me.txtStartDateFrom.Text) And IsDate(Me.txtStartDateTo.Text) Then
-            Me.dgResults.DataSource = modTR.SearchTRbyStartDateRange(Me.txtStartDateFrom.Text, Me.txtStartDateTo.Text)
+            Dim modTR As New CISModel.TechReportModel
+            Me.dgResults.DataSource = modTR.SearchTRbyStartDateRange(CType(Me.txtStartDateFrom.Text, Date), CType(Me.txtStartDateTo.Text, Date))
             Me.dgResults.DataBind()
+            modTR = Nothing
         Else
             Dim strErr As String = "Cannot Perform this search. Invalid Start Date Range."
 
@@ -240,7 +249,7 @@
             objAlert.ShowMessage(Me.Page, strErr)
             objAlert = Nothing
         End If
-        modTR = Nothing
+
     End Sub
 
 
@@ -331,11 +340,11 @@
             .ResolutionDetails = Me.txtResolutionDetails.Text ',[RESOLUTIONDETAILS]
             .ProposedDetails = "" ',[PROPOSEDDETAILS]
             .Status = Me.ddStatus.SelectedValue ',[STATUS]
-            .StartDate = CType(Me.txtStartDate.Text, DateTime) ',[STARTDT]
-            .CompletionDate = CType(Me.txtCompleteDate.Text, DateTime) ',[COMPLETEDT]
+            .StartDate = Date.Parse(Me.txtStartDate.Text, System.Globalization.CultureInfo.GetCultureInfo("us-au").DateTimeFormat) 'CType(Me.txtStartDate.Text, DateTime) ',[STARTDT]
+            .CompletionDate = Date.Parse(Me.txtCompleteDate.Text, System.Globalization.CultureInfo.GetCultureInfo("us-au").DateTimeFormat) 'CType(Me.txtCompleteDate.Text, DateTime) ',[COMPLETEDT]
             .Remarks = txtRemarks.Text ',[REMARKS]
-            ',[ISACTIVEFLG]
-            ',[PURGEFLG]
+            .IsActiveFlag = True '[ISACTIVEFLG]
+            .PurgeFlag = False ',[PURGEFLG]
             ',[CRTDT]
             .CreatedBy = GetUserProfile.ProfileID  ',[CRTBY]
             ',[UPDDT]
@@ -403,5 +412,162 @@
     Private Sub dgResults_UpdateCommand(source As Object, e As DataGridCommandEventArgs) Handles dgResults.UpdateCommand
         Dim TRID As Long = CType(e.Item.Cells(1).Text, Long)
         PopulateTRInfoPage(TRID)
+    End Sub
+
+
+
+    Private Sub dgAffectedDevices_ItemDataBound(sender As Object, e As DataGridItemEventArgs) Handles dgAffectedDevices.ItemDataBound
+        If e.Item.Cells.Count > 0 AndAlso e.Item.Cells(6).Controls.Count > 0 Then
+            CType(e.Item.Cells(6).Controls(0), Button).OnClientClick = "return confirm('Remove this Device?');"
+        End If
+    End Sub
+
+    Private Sub dgAffectedDevices_UpdateCommand(source As Object, e As DataGridCommandEventArgs) Handles dgAffectedDevices.UpdateCommand
+        Dim modWeb As New CISModel.WebModel
+
+        Dim strDownload As String = modWeb.GetWebAppURL() + "Device/?id=" + e.Item.Cells(2).Text
+        Response.Write("<script type='text/javascript'>window.open('" + strDownload + "', 'Device Update Window', 'width=1100,height=600,left=25,top=50,resizable=yes,scrollbars=yes');</script>")
+        'Response.Write("<script type='text/javascript'>window.showModalDialog('" + strDownload + "', 'Device Update Window', 'dialogWidth:1100px;dialogHeight:600px;left:25;top:50;resizable:yes;scrollbars:yes;');</script>")
+        modWeb = Nothing
+    End Sub
+
+    Private Sub dgAffectedDevices_DeleteCommand(source As Object, e As DataGridCommandEventArgs) Handles dgAffectedDevices.DeleteCommand
+        Dim modTR As New CISModel.TechReportModel
+        modTR.PurgeTechRepAffectedDevices(CType(e.Item.Cells(1).Text, Long))
+        modTR = Nothing
+
+        Dim strErr As String = "Device Removed from Report!"
+        Dim objAlert As New DynamicClientScript
+        objAlert.ShowMessage(Me.Page, strErr)
+        objAlert = Nothing
+
+        PopulateAffectedDevicesGrid(CType(Me.txtTRID.Text, Long))
+        PopulateClientDevicesNotAddedinTR()
+
+    End Sub
+
+
+    Private Sub dgAddAffectedDeviceModal_UpdateCommand(source As Object, e As DataGridCommandEventArgs) Handles dgAddAffectedDeviceModal.UpdateCommand
+        Dim modTR As New CISModel.TechReportModel
+        modTR.AddTechRepAffectedDevices(CType(Me.txtTRID.Text, Long), CType(e.Item.Cells(1).Text, Long))
+        modTR = Nothing
+
+        PopulateClientDevicesNotAddedinTR()
+        PopulateAffectedDevicesGrid(CType(Me.txtTRID.Text, Long))
+        Me.mpeAffectedDeviceModal.Hide()
+
+    End Sub
+
+    Private Sub PopulateAttachmentGrid(ByVal id As Long)
+        Dim mdlTR As New CISModel.TechReportModel
+        If id > 0 Then
+            Dim dt As DataTable = mdlTR.GetTechReportAttachmentsList(id)
+
+            dgFiles.DataSource = dt
+            dgFiles.DataBind()
+            Me.btnNewFile.Enabled = True
+        Else
+            dgFiles.DataSource = Nothing
+            dgFiles.DataBind()
+            Me.btnNewFile.Enabled = False
+
+        End If
+
+
+    End Sub
+
+    Private Sub ClearModalFileAttachment()
+        Me.txtFILEID.Text = "0"
+        'Me.fileInput1.Value = Nothing
+        Me.txtAttachmentRemarks.Text = Nothing
+
+    End Sub
+
+    Private Function InsertAttachmentRecord(ByVal FilePath As String, ByVal FTPFilePath As String) As Long
+        Dim mdlTR As New CISModel.TechReportModel
+
+        Dim entFile As New CISEntity.FileAttachEntity
+        With entFile
+            .FilePath = FTPFilePath
+            .Remarks = txtAttachmentRemarks.Text
+            .ParentID = CType(Me.txtTRID.Text, Long)
+            .AttachmentType = "TR"
+            .IsActiveFlag = True
+            .PurgeFlag = False
+        End With
+
+        Return mdlTR.UploadSaveNewAttachment(entFile, GetUserProfile.ProfileID)
+    End Function
+
+
+    Private Sub btnUploadSaveAttachment_Click(sender As Object, e As EventArgs) Handles btnUploadSaveAttachment.Click
+        Dim objWebUtility As New CISData.WebUtility
+        If Not IsNothing(Me.fileInput1.PostedFile) AndAlso fileInput1.PostedFile.ContentLength > 0 Then
+            If Me.fileInput1.PostedFile.ContentLength < objWebUtility.GetUploadFileLimit Then
+
+                Dim Fn As String = System.IO.Path.GetFileName(Me.fileInput1.PostedFile.FileName)
+                Dim strFileName As String = "TR-" + Now.ToString("yyyyMMddhhmmss") + "-" + Fn
+                Dim strFilePath As String = objWebUtility.GetFTPLocalPath + strFileName
+                Dim strFTPFilePath As String = objWebUtility.GetFTPPathRoot + strFileName
+                Dim lngFileID As Long = InsertAttachmentRecord(strFilePath, strFTPFilePath)
+
+                Dim SaveLoc As String = strFilePath
+                fileInput1.PostedFile.SaveAs(SaveLoc)
+
+                Dim strErr1 As String = "SaveAs Complete"
+                Dim objAlert1 As New DynamicClientScript
+                objAlert1.ShowMessage(Me.Page, strErr1)
+                objAlert1 = Nothing
+
+                PopulateAttachmentGrid(CType(Me.txtTRID.Text, Long))
+                ClearModalFileAttachment()
+                Me.mpeAttachment.Hide()
+
+            Else
+                Dim strErr As String = "File to upload is too big. Limit filesize to less than 4mb."
+
+                Dim objAlert As New DynamicClientScript
+                objAlert.ShowMessage(Me.Page, strErr)
+                objAlert = Nothing
+            End If
+
+        Else
+            Dim strErr As String = "No file selected for upload."
+
+            Dim objAlert As New DynamicClientScript
+            objAlert.ShowMessage(Me.Page, strErr)
+            objAlert = Nothing
+
+        End If
+    End Sub
+
+    Private Sub dgFiles_DeleteCommand(source As Object, e As DataGridCommandEventArgs) Handles dgFiles.DeleteCommand
+        Dim modFiles As New CISModel.ClientModel
+        modFiles.FilePurge(CType(e.Item.Cells(1).Text, Long), GetUserProfile.ProfileID)
+
+        Dim strErr As String = "File Attachment  Deleted!"
+        Dim objAlert As New DynamicClientScript
+        objAlert.ShowMessage(Me.Page, strErr)
+        objAlert = Nothing
+
+        PopulateAttachmentGrid(CType(Me.txtTRID.Text, Long))
+        modFiles = Nothing
+    End Sub
+
+    Private Sub dgFiles_ItemDataBound(sender As Object, e As DataGridItemEventArgs) Handles dgFiles.ItemDataBound
+        If e.Item.Cells.Count > 0 AndAlso e.Item.Cells(4).Controls.Count > 0 Then
+            CType(e.Item.Cells(4).Controls(0), LinkButton).OnClientClick = "return confirm('Are you certain you want to delete?');"
+        End If
+    End Sub
+
+    Private Sub dgFiles_UpdateCommand(source As Object, e As DataGridCommandEventArgs) Handles dgFiles.UpdateCommand
+        Dim strDownload As String = CType(e.Item.Cells(2).Text, String)
+        Response.Write("<script type='text/javascript'>window.open('" + strDownload + "');</script>")
+    End Sub
+
+    Private Sub btnPrintTR_Click(sender As Object, e As EventArgs) Handles btnPrintTR.Click
+        Dim modWeb As New CISModel.WebModel
+        Dim strDownload As String = modWeb.GetWebAppURL() + "CISReportViewer/?RptType=TRSingle&id=" + Me.txtTRID.Text
+        Response.Write("<script type='text/javascript'>window.open('" + strDownload + "');</script>")
     End Sub
 End Class

@@ -14,13 +14,22 @@ Option Explicit On
 Partial Public Class _default8
     
     '''<summary>
-    '''cpe control.
+    '''PageMain control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents cpe As Global.AjaxControlToolkit.CollapsiblePanelExtender
+    Protected WithEvents PageMain As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''cpeSearch control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cpeSearch As Global.AjaxControlToolkit.CollapsiblePanelExtender
     
     '''<summary>
     '''pnlSearch control.
@@ -39,6 +48,15 @@ Partial Public Class _default8
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblSearch As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''btnPrintSJ control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnPrintSJ As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
     '''ddClientNameSearch control.
@@ -66,6 +84,24 @@ Partial Public Class _default8
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnClientServiceSearch As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''txtServiceJobNumberSearch control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtServiceJobNumberSearch As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''btnServiceJobNumberSearch control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnServiceJobNumberSearch As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
     '''txtPONumberSearch control.
@@ -248,6 +284,15 @@ Partial Public Class _default8
     Protected WithEvents txtClientAddress As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
+    '''pnlInput control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlInput As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
     '''txtTSWORKID control.
     '''</summary>
     '''<remarks>
@@ -338,13 +383,13 @@ Partial Public Class _default8
     Protected WithEvents ddWorkStatus As Global.System.Web.UI.WebControls.DropDownList
     
     '''<summary>
-    '''ddSignedBy control.
+    '''txtSignedBy control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents ddSignedBy As Global.System.Web.UI.WebControls.DropDownList
+    Protected WithEvents txtSignedBy As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
     '''ddApprovedBy control.
@@ -356,6 +401,60 @@ Partial Public Class _default8
     Protected WithEvents ddApprovedBy As Global.System.Web.UI.WebControls.DropDownList
     
     '''<summary>
+    '''txtSJStartDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtSJStartDate As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''ImageButton3 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ImageButton3 As Global.System.Web.UI.WebControls.ImageButton
+    
+    '''<summary>
+    '''ceStartDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ceStartDate As Global.AjaxControlToolkit.CalendarExtender
+    
+    '''<summary>
+    '''txtSJEndDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtSJEndDate As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''ImageButton4 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ImageButton4 As Global.System.Web.UI.WebControls.ImageButton
+    
+    '''<summary>
+    '''ceSJEndDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents ceSJEndDate As Global.AjaxControlToolkit.CalendarExtender
+    
+    '''<summary>
     '''txtRemarks control.
     '''</summary>
     '''<remarks>
@@ -363,6 +462,24 @@ Partial Public Class _default8
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtRemarks As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''btnSave control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSave As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''btnNew control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnNew As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
     '''lblCreatedBy control.
@@ -399,24 +516,6 @@ Partial Public Class _default8
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents lblUpdateDt As Global.System.Web.UI.WebControls.Label
-    
-    '''<summary>
-    '''btnSave control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnSave As Global.System.Web.UI.WebControls.Button
-    
-    '''<summary>
-    '''btnNew control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnNew As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
     '''cpeFileAttachments control.
@@ -462,4 +561,67 @@ Partial Public Class _default8
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents btnNewFile As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''mpeAttachment control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents mpeAttachment As Global.AjaxControlToolkit.ModalPopupExtender
+    
+    '''<summary>
+    '''pnlAttachmentModal control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlAttachmentModal As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
+    '''txtFILEID control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtFILEID As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''fileInput1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents fileInput1 As Global.System.Web.UI.HtmlControls.HtmlInputFile
+    
+    '''<summary>
+    '''txtAttachmentRemarks control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtAttachmentRemarks As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''btnUploadSaveAttachment control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnUploadSaveAttachment As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''btnCancelAttachment control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnCancelAttachment As Global.System.Web.UI.WebControls.Button
 End Class

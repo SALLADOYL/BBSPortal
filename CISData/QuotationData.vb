@@ -24,7 +24,7 @@ Public Class QuotationData
         strSQL = strSQL + " VALUES ("
         strSQL = strSQL + "'" + cisQuotationEntity.TSWorkID.ToString + "'" '[TSWORKID]
         strSQL = strSQL + ",'" + cisQuotationEntity.QuotationNumber + "'" '[QUOTATIONNUMBER]
-        strSQL = strSQL + ",'" + cisQuotationEntity.ApprovalDate.ToString + "'" ',[APPROVALDATE]
+        strSQL = strSQL + ",'" + cisQuotationEntity.ApprovalDate.ToString("MM/dd/yyyy HH:mm:ss") + "'" ',[APPROVALDATE]
         strSQL = strSQL + ",'" + cisQuotationEntity.ApprovedBy.ToString + "'" ',[APPROVEDBY]
 
         strSQL = strSQL + ",'" + cisQuotationEntity.Remarks + "'" ',[REMARKS]
@@ -75,7 +75,7 @@ Public Class QuotationData
         strSQL = strSQL + "UPDATE [dbo].[QUOTATIONTBL] "
         strSQL = strSQL + "Set [TSWORKID] = '" + cisQuotationEntity.TSWorkID.ToString + "'"
         strSQL = strSQL + " ,[QUOTATIONNUMBER] = '" + cisQuotationEntity.QuotationNumber + "'"
-        strSQL = strSQL + ",[APPROVALDATE] = '" + cisQuotationEntity.ApprovalDate.ToString + "'"
+        strSQL = strSQL + ",[APPROVALDATE] = '" + cisQuotationEntity.ApprovalDate.ToString("MM/dd/yyyy HH:mm:ss") + "'"
         strSQL = strSQL + ",[APPROVEDBY] = '" + cisQuotationEntity.ApprovedBy.ToString + "'"
 
         strSQL = strSQL + ",[REMARKS] = '" + cisQuotationEntity.Remarks + "'"

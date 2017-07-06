@@ -54,6 +54,7 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.ReportViewer.WebForms, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -201,6 +202,8 @@
     <Content Include="Account\ResetPasswordConfirmation.aspx" />
     <Content Include="Account\TwoFactorAuthenticationSignIn.aspx" />
     <Content Include="Account\VerifyPhoneNumber.aspx" />
+    <Content Include="CISReportViewer\default.aspx" />
+    <Content Include="ClientMetrics\default.aspx" />
     <Content Include="ClientService\default.aspx" />
     <Content Include="Client\default.aspx" />
     <Content Include="Contact.aspx" />
@@ -229,6 +232,7 @@
     <Content Include="Login\default.aspx" />
     <Content Include="myUtilities\default.aspx" />
     <Content Include="Profile\default.aspx" />
+    <Content Include="RolesManagement\default.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -261,7 +265,9 @@
     <Content Include="oldDefault.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="ServiceJobMetrics\default.aspx" />
     <Content Include="ServiceJob\default.aspx" />
+    <Content Include="TechReportMetrics\default.aspx" />
     <Content Include="TechReport\default.aspx" />
     <Content Include="TempImageFiles\msc_cntr_0.txt" />
     <Content Include="TempImageFiles\msc_cntr_1.txt" />
@@ -274,6 +280,7 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="SiteModal.Master" />
+    <Content Include="Technical-Report %28Single%29.rdl" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -398,6 +405,20 @@
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="App_Start\Startup.Auth.vb" />
+    <Compile Include="CISReportViewer\default.aspx.designer.vb">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CISReportViewer\default.aspx.vb">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ClientMetrics\default.aspx.designer.vb">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ClientMetrics\default.aspx.vb">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="ClientScriptModule.vb" />
     <Compile Include="ClientService\default.aspx.designer.vb">
       <DependentUpon>default.aspx</DependentUpon>
@@ -439,7 +460,7 @@
     </Compile>
     <Compile Include="myUtilities\default.aspx.vb">
       <DependentUpon>default.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="oldDefault.aspx.vb">
       <SubType>ASPXCodeBehind</SubType>
@@ -493,6 +514,20 @@
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="RolesManagement\default.aspx.designer.vb">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RolesManagement\default.aspx.vb">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="ServiceJobMetrics\default.aspx.designer.vb">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceJobMetrics\default.aspx.vb">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="ServiceJob\default.aspx.designer.vb">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
@@ -515,6 +550,13 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Startup.vb" />
+    <Compile Include="TechReportMetrics\default.aspx.designer.vb">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TechReportMetrics\default.aspx.vb">
+      <DependentUpon>default.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="TechReport\default.aspx.designer.vb">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>

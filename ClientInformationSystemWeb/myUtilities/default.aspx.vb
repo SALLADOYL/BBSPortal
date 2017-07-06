@@ -1,4 +1,7 @@
 ﻿Imports CISData
+Imports Microsoft.Reporting.WebForms
+Imports System.Net
+
 Public Class _default10
     Inherits System.Web.UI.Page
 
@@ -93,4 +96,33 @@ Public Class _default10
         Response.Write("<script type='text/javascript'>window.open('" + strDownload + "', 'popup_window', 'directories=0,titlebar=0,width=900,height=1000,left=100,top=100,resizable=yes');</script>")
         modWeb = Nothing
     End Sub
+
+    Private Sub btnRedirSSRS_Click(sender As Object, e As EventArgs) Handles btnRedirSSRS.Click
+        Dim modWeb As New CISModel.WebModel
+        Dim strDownload As String = Me.txtssrspath.Text
+        Response.Write("<script type='text/javascript'>window.open('" + strDownload + "', 'popup_window', 'directories=0,titlebar=0,width=900,height=1000,left=100,top=100,resizable=yes');</script>")
+        modWeb = Nothing
+    End Sub
+
+    Private Sub btnProgramRSViewer_Click(sender As Object, e As EventArgs) Handles btnProgramRSViewer.Click
+        'Me.ReportViewer1.ShowParameterPrompts = False
+        'Dim irepCred As IReportServerCredentials = New CustomReportCredentials("sl.it.sysad", "Ll0yd123", "BBS")
+        'ReportViewer1.ServerReport.ReportServerCredentials = irepCred
+        'Me.ReportViewer1.ServerReport.ReportPath = "/Client Information System/Technical Reports/Technical-Report (Single)"
+        'Me.ReportViewer1.ServerReport.ReportServerUrl = New Uri("http://10.1.1.18/ReportServer/")
+        'ReportViewer1.ServerReport.Refresh()
+        'Dim rptParamTRID As New ReportParameter
+        'rptParamTRID.Name = "paramTRID"
+        'rptParamTRID.Values.Add(1)
+        'Me.ReportViewer1.ServerReport.SetParameters(rptParamTRID)
+        'Me.ReportViewer1.Visible = True
+        'ReportViewer1.DataBind()
+        ''ReportViewer1.
+
+        Dim modWeb As New CISModel.WebModel
+        Dim strDownload As String = modWeb.GetWebAppURL() + "cisReportViewer/"
+        Response.Write("<script type='text/javascript'>window.open('" + strDownload + "', 'popup_window', 'directories=0,titlebar=0,width=900,height=1000,left=100,top=100,resizable=yes');</script>")
+        modWeb = Nothing
+    End Sub
 End Class
+

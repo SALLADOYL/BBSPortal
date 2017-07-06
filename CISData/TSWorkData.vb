@@ -19,7 +19,7 @@ Public Class TSWorkData
         strSQL = strSQL + " ,[TERMS] " ',TERMS
         strSQL = strSQL + " ,[STATUS] " ',STATUS
         strSQL = strSQL + " ,[JOBCREATEDBY] " ',[JOBCREATEDBY]
-        strSQL = strSQL + " ,[JOBAPPROVALDATE] " ',JOBAPPROVALDATE
+        'strSQL = strSQL + " ,[JOBAPPROVALDATE] " ',JOBAPPROVALDATE
         strSQL = strSQL + " ,[JOBAPPROVEDBY] " ',JOBAPPROVEDBY
         'strSQL = strSQL + " ,[ASSIGNEDTO] " ',ASSIGNEDTO
         strSQL = strSQL + " ,[STARTDATE] " ',STARTDATE
@@ -37,20 +37,20 @@ Public Class TSWorkData
         strSQL = strSQL + ",'" + cisTSWorkEntity.ServiceJobNumber + "'" ',,[SERVICEJOBNUMBER]
         strSQL = strSQL + ",'" + cisTSWorkEntity.PONumber + "'" ',,PONUMBER
         strSQL = strSQL + ",'" + cisTSWorkEntity.QuotationNumber + "'" ',QUOTATIONNUMBER
-        strSQL = strSQL + ",'" + cisTSWorkEntity.QuoteDate.ToString + "'" ',QUOTEDATE
+        strSQL = strSQL + ",'" + cisTSWorkEntity.QuoteDate.ToString("MM/dd/yyyy HH:mm:ss") + "'" ',QUOTEDATE
         strSQL = strSQL + ",'" + cisTSWorkEntity.FromText + "'" ',FROMTEXT
         strSQL = strSQL + ",'" + cisTSWorkEntity.DeliverTo + "'" ',DELIVERTO
         strSQL = strSQL + ",'" + cisTSWorkEntity.Terms + "'" ',TERMS
         strSQL = strSQL + ",'" + cisTSWorkEntity.Status + "'" ',STATUS
         strSQL = strSQL + ",'" + cisTSWorkEntity.JobCreatedBy.ToString + "'" ',[JOBCREATEDBY]
-        strSQL = strSQL + ",'" + cisTSWorkEntity.JobApprovalDate.ToString + "'" ',JOBAPPROVALDATE
+        'strSQL = strSQL + ",'" + cisTSWorkEntity.JobApprovalDate.ToString + "'" ',JOBAPPROVALDATE
         strSQL = strSQL + ",'" + cisTSWorkEntity.JobApprovedBy.ToString + "'" ',JOBAPPROVEDBY
         'strSQL = strSQL + ",'" + cisTSWorkEntity.AssignedTo.ToString + "'" ',ASSIGNEDTO
-        strSQL = strSQL + ",'" + cisTSWorkEntity.StartDate.ToString + "'" ',STARTDATE
-        strSQL = strSQL + ",'" + cisTSWorkEntity.EndDate.ToString + "'" ',ENDDATE
+        strSQL = strSQL + ",'" + cisTSWorkEntity.StartDate.ToString("MM/dd/yyyy HH:mm:ss") + "'" ',STARTDATE
+        strSQL = strSQL + ",'" + cisTSWorkEntity.EndDate.ToString("MM/dd/yyyy HH:mm:ss") + "'" ',ENDDATE
 
         strSQL = strSQL + ",'" + cisTSWorkEntity.Remarks + "'" ',[REMARKS]
-        strSQL = strSQL + ",'" + cisTSWorkEntity.ClientSignedBy.ToString + "'" ',[[CLIENTSIGNEDBY]]
+        strSQL = strSQL + ",'" + cisTSWorkEntity.ClientSignedBy + "'" ',[[CLIENTSIGNEDBY]]
         If cisTSWorkEntity.IsActiveFlag Then
             strSQL = strSQL + ",1" ',[ISACTIVEFLG]
         Else
@@ -101,20 +101,20 @@ Public Class TSWorkData
         strSQL = strSQL + " ,[SERVICEJOBNUMBER] = '" + cisTSWorkEntity.ServiceJobNumber + "'" '[SERVICEJOBNUMBER]
         strSQL = strSQL + " ,[PONUMBER] = '" + cisTSWorkEntity.PONumber + "'"
         strSQL = strSQL + ",[QUOTATIONNUMBER] = '" + cisTSWorkEntity.QuotationNumber + "'"
-        strSQL = strSQL + ",[QUOTEDATE] = '" + cisTSWorkEntity.QuoteDate.ToString + "'"
+        strSQL = strSQL + ",[QUOTEDATE] = '" + cisTSWorkEntity.QuoteDate.ToString("MM/dd/yyyy HH:mm:ss") + "'"
         strSQL = strSQL + ",[FROMTEXT] = '" + cisTSWorkEntity.FromText + "'"
         strSQL = strSQL + ",[DELIVERTO] = '" + cisTSWorkEntity.DeliverTo + "'"
         strSQL = strSQL + ",[TERMS] = '" + cisTSWorkEntity.Terms + "'"
         strSQL = strSQL + ",[STATUS] = '" + cisTSWorkEntity.Status + "'"
         strSQL = strSQL + ",[JOBCREATEDBY] = '" + cisTSWorkEntity.JobCreatedBy.ToString + "'" '[JOBCREATEDBY]
-        strSQL = strSQL + ",[JOBAPPROVALDATE] = '" + cisTSWorkEntity.JobApprovalDate.ToString + "'"
+        'strSQL = strSQL + ",[JOBAPPROVALDATE] = '" + cisTSWorkEntity.JobApprovalDate.ToString("MM/dd/yyyy HH:mm:ss") + "'"
         strSQL = strSQL + ",[JOBAPPROVEDBY] = '" + cisTSWorkEntity.JobApprovedBy.ToString + "'"
         'strSQL = strSQL + ",[ASSIGNEDTO] = '" + cisTSWorkEntity.AssignedTo.ToString + "'"
-        strSQL = strSQL + ",[STARTDATE] = '" + cisTSWorkEntity.StartDate.ToString + "'"
-        strSQL = strSQL + ",[ENDDATE] = '" + cisTSWorkEntity.EndDate.ToString + "'"
+        strSQL = strSQL + ",[STARTDATE] = '" + cisTSWorkEntity.StartDate.ToString("MM/dd/yyyy HH:mm:ss") + "'"
+        strSQL = strSQL + ",[ENDDATE] = '" + cisTSWorkEntity.EndDate.ToString("MM/dd/yyyy HH:mm:ss") + "'"
 
         strSQL = strSQL + ",[REMARKS] = '" + cisTSWorkEntity.Remarks + "'"
-        strSQL = strSQL + ",[CLIENTSIGNEDBY] = '" + cisTSWorkEntity.ClientSignedBy.ToString + "'" '[CLIENTSIGNEDBY]
+        strSQL = strSQL + ",[CLIENTSIGNEDBY] = '" + cisTSWorkEntity.ClientSignedBy + "'" '[CLIENTSIGNEDBY]
         If cisTSWorkEntity.IsActiveFlag Then
             strSQL = strSQL + ",[ISACTIVEFLG]=1" ',[ISACTIVEFLG]
         Else
@@ -152,7 +152,7 @@ Public Class TSWorkData
         Dim strSQL As String
         strSQL = "SET @NewUpdateDate = GETDATE();"
         strSQL = strSQL + "UPDATE [dbo].[TSWORKTBL] "
-        strSQL = strSQL + "Set [PURGEFLG]=1" ',[PURGEFLG]
+        strSQL = strSQL + "Set [ISACTIVEFLG]=0, [PURGEFLG]=1" ',[PURGEFLG]
         strSQL = strSQL + ",[UPDDT] = @NewUpdateDate"
         strSQL = strSQL + ",[UPDBY] = '" + prflID.ToString + "'"
         strSQL = strSQL + "WHERE [TSWORKID]=" + TSWorkID.ToString
@@ -203,13 +203,13 @@ Public Class TSWorkData
                         .Terms = CType(curRow("TERMS"), String) ',TERMS
                         .Status = CType(curRow("STATUS"), String) ',STATUS
                         .JobCreatedBy = CType(curRow("JOBCREATEDBY"), Long) ',[JOBCREATEDBY]
-                        .JobApprovalDate = CType(curRow("JOBAPPROVALDATE"), DateTime) ',JOBAPPROVALDATE
+                        '.JobApprovalDate = CType(curRow("JOBAPPROVALDATE"), DateTime) ',JOBAPPROVALDATE
                         .JobApprovedBy = CType(curRow("JOBAPPROVEDBY"), Long) ',JOBAPPROVEDBY
                         '.AssignedTo = CType(curRow("ASSIGNEDTO"), Long) ',ASSIGNEDTO
                         .StartDate = CType(curRow("STARTDATE"), DateTime) ',STARTDATE
                         .EndDate = CType(curRow("ENDDATE"), DateTime) ',ENDDATE
                         .Remarks = CType(curRow("REMARKS"), String) ',REMARKS
-                        .ClientSignedBy = CType(curRow("CLIENTSIGNEDBY"), Long) ',[CLIENTSIGNEDBY]
+                        .ClientSignedBy = CType(curRow("CLIENTSIGNEDBY"), String) ',[CLIENTSIGNEDBY]
                         If CType(curRow("ISACTIVEFLG"), Integer) <> 0 Then ',ISACTIVEFLG
                             .IsActiveFlag = True
                         Else
@@ -274,13 +274,13 @@ Public Class TSWorkData
                         .Terms = CType(curRow("TERMS"), String) ',TERMS
                         .Status = CType(curRow("STATUS"), String) ',STATUS
                         .JobCreatedBy = CType(curRow("JOBCREATEDBY"), Long) ',[JOBCREATEDBY]
-                        .JobApprovalDate = CType(curRow("JOBAPPROVALDATE"), DateTime) ',JOBAPPROVALDATE
+                        '.JobApprovalDate = CType(curRow("JOBAPPROVALDATE"), DateTime) ',JOBAPPROVALDATE
                         .JobApprovedBy = CType(curRow("JOBAPPROVEDBY"), Long) ',JOBAPPROVEDBY
                         '.AssignedTo = CType(curRow("ASSIGNEDTO"), Long) ',ASSIGNEDTO
                         .StartDate = CType(curRow("STARTDATE"), DateTime) ',STARTDATE
                         .EndDate = CType(curRow("ENDDATE"), DateTime) ',ENDDATE
                         .Remarks = CType(curRow("REMARKS"), String) ',REMARKS
-                        .ClientSignedBy = CType(curRow("CLIENTSIGNEDBY"), Long) ',[CLIENTSIGNEDBY]
+                        .ClientSignedBy = CType(curRow("CLIENTSIGNEDBY"), String) ',[CLIENTSIGNEDBY]
                         If CType(curRow("ISACTIVEFLG"), Integer) <> 0 Then ',ISACTIVEFLG
                             .IsActiveFlag = True
                         Else
@@ -509,8 +509,8 @@ Public Class TSWorkData
         strSQL = strSQL + " SERVICETBL ON CLIENTSERVICETBL.SVCID = SERVICETBL.SVCID INNER JOIN "
         strSQL = strSQL + " TSWORKTBL ON CLIENTSERVICETBL.CLIENTSVCID = TSWORKTBL.CLSVCID "
         strSQL = strSQL + " WHERE CLIENTSERVICETBL.ISACTIVE = 1 And CLIENTSERVICETBL.PURGEFLG = 0"
-        strSQL = strSQL + " AND (TSWORKTBL.QUOTEDATE BETWEEN CONVERT(DATETIME,'" + DateFrom.ToShortDateString + "',103)"
-        strSQL = strSQL + " AND  CONVERT(DATETIME,'" + DateTo.ToShortDateString + "'103))"
+        strSQL = strSQL + " AND (TSWORKTBL.QUOTEDATE BETWEEN '" + DateFrom.ToString("MM/dd/yyyy") + "'"
+        strSQL = strSQL + " AND  '" + DateTo.ToString("MM/dd/yyyy") + "')"
 
         Dim objCommon As New CISData.CommonClass
         Return SQLHelper.ExecuteTable(objCommon.GetConnString, CommandType.Text, strSQL)

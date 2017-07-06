@@ -57,4 +57,5 @@ Public Class SiteMaster
         'Context.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie)
     End Sub
 
+
 End Class

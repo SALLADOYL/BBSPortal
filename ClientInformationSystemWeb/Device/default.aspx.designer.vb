@@ -230,6 +230,15 @@ Partial Public Class _default5
     Protected WithEvents CalendarExtender1 As Global.AjaxControlToolkit.CalendarExtender
     
     '''<summary>
+    '''btnNowMANUFACTUREDATE control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnNowMANUFACTUREDATE As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
     '''txtRECEIVEDATE control.
     '''</summary>
     '''<remarks>
@@ -255,6 +264,15 @@ Partial Public Class _default5
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents CalendarExtender2 As Global.AjaxControlToolkit.CalendarExtender
+    
+    '''<summary>
+    '''btnNowRECEIVEDATE control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnNowRECEIVEDATE As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
     '''chkIsAvailable control.

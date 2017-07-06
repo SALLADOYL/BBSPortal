@@ -9,7 +9,7 @@ Public Class ProfileObjAccessData
     Public Function SaveNew(ByRef cisProfileObjectAccessEntity As CISEntity.ProfileObjectAccessEntity, ByVal prflID As Long) As Boolean
 
         Dim strSQL As String
-        strSQL = "SET @CreateDate = GETDATE(); INSERT INTO [dbo].[CLIENTTBL] "
+        strSQL = "SET @CreateDate = GETDATE(); INSERT INTO [dbo].[PROFILEOBJACCESSTBL] "
         strSQL = strSQL + " ([PROFILEID] "
         strSQL = strSQL + " ,[OBJACCESSID] "
         strSQL = strSQL + " ,[ROLEID] "
@@ -113,6 +113,28 @@ Public Class ProfileObjAccessData
         Return True
     End Function
 
+    Public Function Delete(ByVal PRFLOBJACCID As Long, ByVal prflID As Long) As Boolean
+
+        Dim strSQL As String
+        strSQL = "SET @NewUpdateDate = GETDATE();"
+        strSQL = strSQL + "DELETE FROM [dbo].[PROFILEOBJACCESSTBL] "
+        strSQL = strSQL + "WHERE [PRFLOBJACCID]=" + PRFLOBJACCID.ToString
+
+        Dim objParams(0) As SqlParameter
+        objParams(0) = New SqlParameter("@NewUpdateDate", SqlDbType.DateTime)
+        objParams(0).Value = Now
+        objParams(0).Direction = ParameterDirection.InputOutput
+
+
+        Dim objCommon As New CommonClass
+        Dim objData As New SQLHelper
+        Dim intRet As Integer = 0
+
+        intRet = SQLHelper.ExecuteNonQuery(objCommon.GetConnString, CommandType.Text, strSQL, objParams)
+
+        Return True
+    End Function
+
     Public Function GetClient(ByVal PRFLOBJACCID As Long) As CISEntity.ProfileObjectAccessEntity
         Dim objProfileObjectAccessEntity As New CISEntity.ProfileObjectAccessEntity
         Dim ds As New DataSet
@@ -157,6 +179,25 @@ Public Class ProfileObjAccessData
         End If
         dt.Dispose()
         ds.Dispose()
+    End Function
+
+    Public Function GetProfileIDNameByRole(ByVal RoleID As Long) As DataTable
+        Dim strSQL As String = ""
+
+        strSQL &= " SELECT "
+        strSQL &= " PROFILETBL.PROFILEID, PROFILETBL.NAME "
+        strSQL &= " FROM "
+        strSQL &= " PROFILEOBJACCESSTBL INNER JOIN"
+        strSQL &= " PROFILETBL ON PROFILEOBJACCESSTBL.PROFILEID = PROFILETBL.PROFILEID INNER JOIN "
+        strSQL &= " ROLETBL ON PROFILEOBJACCESSTBL.ROLEID = ROLETBL.ROLEID "
+        strSQL &= " WHERE "
+        strSQL &= " PROFILEOBJACCESSTBL.PURGEFLG = 0 "
+        strSQL &= " AND ROLETBL.ISACTIVEFLG=1 AND ROLETBL.PURGEFLG=0 "
+        strSQL &= " AND ROLETBL.ROLEID=" + RoleID.ToString
+
+
+        Dim objCommon As New CISData.CommonClass
+        Return SQLHelper.ExecuteTable(objCommon.GetConnString, CommandType.Text, strSQL)
     End Function
 
     Public Function GetList(ByVal strWhereClause As String) As List(Of CISEntity.ProfileObjectAccessEntity)

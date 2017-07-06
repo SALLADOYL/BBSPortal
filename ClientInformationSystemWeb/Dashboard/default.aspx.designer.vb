@@ -14,74 +14,182 @@ Option Explicit On
 Partial Public Class _default2
     
     '''<summary>
-    '''lnkWorkCount control.
+    '''txtSJStartDate control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lnkWorkCount As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents txtSJStartDate As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''lnkWorkUnAssigned control.
+    '''imgSJStartDate control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lnkWorkUnAssigned As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents imgSJStartDate As Global.System.Web.UI.WebControls.ImageButton
     
     '''<summary>
-    '''lnkWorkOngoing control.
+    '''calexSJStartDate control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lnkWorkOngoing As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents calexSJStartDate As Global.AjaxControlToolkit.CalendarExtender
     
     '''<summary>
-    '''lnkWorkCompleted control.
+    '''txtSJEndDate control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents lnkWorkCompleted As Global.System.Web.UI.WebControls.LinkButton
+    Protected WithEvents txtSJEndDate As Global.System.Web.UI.WebControls.TextBox
     
     '''<summary>
-    '''Chart1 control.
+    '''imgSJEndDate control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents Chart1 As Global.System.Web.UI.DataVisualization.Charting.Chart
+    Protected WithEvents imgSJEndDate As Global.System.Web.UI.WebControls.ImageButton
     
     '''<summary>
-    '''Chart2 control.
+    '''calexSJEndDate control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents Chart2 As Global.System.Web.UI.DataVisualization.Charting.Chart
+    Protected WithEvents calexSJEndDate As Global.AjaxControlToolkit.CalendarExtender
     
     '''<summary>
-    '''Chart3 control.
+    '''btnCalSJMetrics control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents Chart3 As Global.System.Web.UI.DataVisualization.Charting.Chart
+    Protected WithEvents btnCalSJMetrics As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
-    '''Chart4 control.
+    '''dgOutstandingSJ control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents Chart4 As Global.System.Web.UI.DataVisualization.Charting.Chart
+    Protected WithEvents dgOutstandingSJ As Global.System.Web.UI.WebControls.DataGrid
+    
+    '''<summary>
+    '''chrtLineSJ control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chrtLineSJ As Global.System.Web.UI.DataVisualization.Charting.Chart
+    
+    '''<summary>
+    '''chrtPieSJ control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chrtPieSJ As Global.System.Web.UI.DataVisualization.Charting.Chart
+    
+    '''<summary>
+    '''txtTRStartingDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtTRStartingDate As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''imgTRStartingDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents imgTRStartingDate As Global.System.Web.UI.WebControls.ImageButton
+    
+    '''<summary>
+    '''calexTRStartingDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents calexTRStartingDate As Global.AjaxControlToolkit.CalendarExtender
+    
+    '''<summary>
+    '''txtTREndingDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents txtTREndingDate As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''imgTREndingDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents imgTREndingDate As Global.System.Web.UI.WebControls.ImageButton
+    
+    '''<summary>
+    '''calexTREndingDate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents calexTREndingDate As Global.AjaxControlToolkit.CalendarExtender
+    
+    '''<summary>
+    '''btnTRMetricsCalculate control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnTRMetricsCalculate As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''dgOutstandingTR control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents dgOutstandingTR As Global.System.Web.UI.WebControls.DataGrid
+    
+    '''<summary>
+    '''chrtLineTechReport control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chrtLineTechReport As Global.System.Web.UI.DataVisualization.Charting.Chart
+    
+    '''<summary>
+    '''chrtPieTechReport control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents chrtPieTechReport As Global.System.Web.UI.DataVisualization.Charting.Chart
 End Class

@@ -59,6 +59,15 @@ Partial Public Class _default3
     Protected WithEvents btnShareURL As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
+    '''btnPrintPrev control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnPrintPrev As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
     '''txtIDSearch control.
     '''</summary>
     '''<remarks>

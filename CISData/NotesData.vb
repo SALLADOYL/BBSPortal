@@ -30,7 +30,7 @@ Public Class NotesData
         strSQL = strSQL + " VALUES ("
         strSQL = strSQL + "'" + cisNotesEntity.ParentType + "'" '[]
         strSQL = strSQL + ",'" + cisNotesEntity.ParentID.ToString + "'" ',
-        strSQL = strSQL + ",'" + cisNotesEntity.NoteDate.ToString + "'" ',
+        strSQL = strSQL + ",'" + cisNotesEntity.NoteDate.ToString("MM/dd/yyyy HH:mm:ss") + "'" ',
         strSQL = strSQL + ",'" + cisNotesEntity.NoteText + "'" ',
         If cisNotesEntity.IsActiveFlag Then
             strSQL = strSQL + ",1" ',[ISACTIVEFLG]
@@ -84,7 +84,7 @@ Public Class NotesData
         strSQL = "SET @NewUpdateDate = GETDATE();"
         strSQL = strSQL + "UPDATE [dbo].[NOTESTBL] "
         strSQL = strSQL + "Set [PARENTTYPE] = '" + cisNotesEntity.ParentType + "'"
-        strSQL = strSQL + " ,[NOTEDATE] = '" + cisNotesEntity.NoteDate.ToString + "'"
+        strSQL = strSQL + " ,[NOTEDATE] = '" + cisNotesEntity.NoteDate.ToString("MM/dd/yyyy HH:mm:ss") + "'"
         strSQL = strSQL + ",[NOTETEXT] = '" + cisNotesEntity.NoteText + "'"
         If cisNotesEntity.IsActiveFlag Then
             strSQL = strSQL + ",[ISACTIVEFLG]=1" ',[ISACTIVEFLG]

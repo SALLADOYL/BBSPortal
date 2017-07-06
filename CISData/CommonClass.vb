@@ -9,6 +9,8 @@ Imports System.Net
 Imports System.Web
 
 
+
+
 Public Class CommonClass
 
 #Region "MembershipCode Generator"
@@ -262,6 +264,10 @@ End Class
 
 Public Class WebUtility
 
+    Public Function GetCISTechReportPath() As String
+        Return System.Configuration.ConfigurationManager.AppSettings("CISRSTRpath")
+    End Function
+
     Public Function GetFTPPathRoot() As String
         Return System.Configuration.ConfigurationManager.AppSettings("FTPPath")
     End Function
@@ -274,8 +280,20 @@ Public Class WebUtility
         Return CType(System.Configuration.ConfigurationManager.AppSettings("UploadFileLimit"), Integer)
     End Function
 
+    Public Function GetIDPicSavePath() As String
+        Return System.Configuration.ConfigurationManager.AppSettings("IDPicSavePath")
+    End Function
+
+    Public Function GetPictureFileLimit() As Integer
+        Return CType(System.Configuration.ConfigurationManager.AppSettings("IDFileLimit"), Integer)
+    End Function
+
     Public Function GetWebAppURL() As String
         Return System.Configuration.ConfigurationManager.AppSettings("WebAppURL")
+    End Function
+
+    Public Function GetWebAppURLPicPath() As String
+        Return System.Configuration.ConfigurationManager.AppSettings("WebAppURLPicPath")
     End Function
 
     Private Function GetFTPCredential() As System.Net.NetworkCredential
@@ -348,3 +366,5 @@ Public Class WebUtility
 
 
 End Class
+
+

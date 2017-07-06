@@ -121,11 +121,11 @@
                                         <H4>Device Information:</H4>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr style="visibility:hidden;">
                                     <td>
                                         Device&nbsp;ID:</td>
                                     <td>
-                                        <asp:TextBox ID="txtDEVID" runat="server" ReadOnly="True"></asp:TextBox></td>
+                                        <asp:TextBox ID="txtDEVID" runat="server" ReadOnly="True" Visible="false"></asp:TextBox></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -168,18 +168,20 @@
                                         Manufacture&nbsp;Date:
                                     </td>
                                     <td>
-                                        <asp:TextBox TextMode="DateTime" ID="txtMANUFACTUREDATE" runat="server" AutoCompleteType="Disabled" ReadOnly="true" ></asp:TextBox>&nbsp;
+                                        <asp:TextBox ID="txtMANUFACTUREDATE" runat="server" AutoCompleteType="Disabled" ReadOnly="false" ></asp:TextBox>&nbsp;
                                         <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/Images/calendar-icon.png" Height="20px" Width="20px" />&nbsp;
-                                                    <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" PopupButtonID="ImageButton1" TargetControlID="txtMANUFACTUREDATE" Format="dd/MM/yyyy" />
+                                        <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" PopupButtonID="ImageButton1" TargetControlID="txtMANUFACTUREDATE"/>
+                                        &nbsp;<asp:Button ID="btnNowMANUFACTUREDATE" runat="server" Text="Now" Font-Size="XX-Small" />&nbsp;<i style="font-size:xx-small">(Format: dd/MM/yyyy)</i>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         Receive&nbsp;Date:</td>
                                     <td>
-                                        <asp:TextBox TextMode="DateTime" ID="txtRECEIVEDATE" runat="server" AutoCompleteType="Disabled" ReadOnly="true" ></asp:TextBox>&nbsp;
+                                        <asp:TextBox ID="txtRECEIVEDATE" runat="server" AutoCompleteType="Disabled" ReadOnly="false" ></asp:TextBox>&nbsp;
                                         <asp:ImageButton ID="ImageButton2" runat="server" ImageUrl="~/Images/calendar-icon.png" Height="20px" Width="20px" />&nbsp;
-                                        <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" PopupButtonID="ImageButton2" TargetControlID="txtRECEIVEDATE" Format="dd/MM/yyyy" />
+                                        <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" PopupButtonID="ImageButton2" TargetControlID="txtRECEIVEDATE"/>
+                                        &nbsp;<asp:Button ID="btnNowRECEIVEDATE" runat="server" Text="Now" Font-Size="XX-Small" />&nbsp;<i style="font-size:xx-small">(Format: dd/MM/yyyy)</i>
                                     </td>
                                 </tr>
                                 <tr>

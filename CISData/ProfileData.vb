@@ -34,15 +34,15 @@ Public Class ProfileData
         strSQL = strSQL + " ,[UPDBY]) "
         strSQL = strSQL + " VALUES ("
         strSQL = strSQL + "'" + cisProfileEntity.EmployeeCode + "'"
-        strSQL = strSQL + ",'" + cisProfileEntity.PhotoUrlPath + "'"
+        strSQL = strSQL + ",''" 'PhotoUrlPath
         strSQL = strSQL + ",'" + cisProfileEntity.Name + "'" ',NAME
         strSQL = strSQL + ",'" + cisProfileEntity.Address + "'" ',ADDRESS
         'strSQL = strSQL + ",'" + cisProfileEntity.DateHired.ToString + "'" ',DATEHIRED
         strSQL = strSQL + ",'" + cisProfileEntity.FacultyGroup + "'" ',FACULTYGROUP
         strSQL = strSQL + ",'" + cisProfileEntity.Department + "'" ',DEPARTMENT
         strSQL = strSQL + ",'" + cisProfileEntity.Status + "'" ',STATUS
-        strSQL = strSQL + ",'" + cisProfileEntity.UserName + "'" ',USERNAME
-        strSQL = strSQL + ",'" + cisProfileEntity.Password + "'" ',PASSWORD
+        strSQL = strSQL + ",'" + cisProfileEntity.EmployeeCode + "'" ',USERNAME / BY DEFAULT THE EMPLOYEECODE WILL BE THE TEMPORARY USERNAME UPON CREATION
+        strSQL = strSQL + ",'Passw0rd'" ',PASSWORD / upon creation, set default common password
         strSQL = strSQL + ",'" + cisProfileEntity.WorkEmail + "'" ',WORKEMAIL
         strSQL = strSQL + ",'" + cisProfileEntity.MobilePhone + "'" ',MOBILEPHONE
         strSQL = strSQL + ",'" + cisProfileEntity.Extension + "'" ',EXTENSION
@@ -65,9 +65,9 @@ Public Class ProfileData
             strSQL = strSQL + ",0" ',[PURGEFLG]
         End If
         strSQL = strSQL + ",@CreateDate" ',[CRTDT]
-        strSQL = strSQL + ",'" + cisProfileEntity.CreatedBy.ToString + "'" ',[CRTBY]
+        strSQL = strSQL + ",'" + prflID.ToString + "'" ',[CRTBY]
         strSQL = strSQL + ",@CreateDate" ',[UPDDT]
-        strSQL = strSQL + ",'" + cisProfileEntity.UpdatedBy.ToString + "'" ',[UPDBY]
+        strSQL = strSQL + ",'" + prflID.ToString + "'" ',[UPDBY]
         strSQL = strSQL & "); SET @NewID = SCOPE_IDENTITY();"
 
         Dim objParams(1) As SqlParameter
@@ -99,15 +99,15 @@ Public Class ProfileData
         strSQL = "SET @NewUpdateDate = GETDATE();"
         strSQL = strSQL + "UPDATE [dbo].[PROFILETBL] "
         strSQL = strSQL + "Set [EMPLOYEECODE] = '" + cisProfileEntity.EmployeeCode + "'"
-        strSQL = strSQL + " ,[PHOTOURLPATH] = '" + cisProfileEntity.PhotoUrlPath + "'" ',PHOTOURLPATH
+        'strSQL = strSQL + " ,[PHOTOURLPATH] = '" + cisProfileEntity.PhotoUrlPath + "'" ',PHOTOURLPATH
         strSQL = strSQL + " ,[NAME] = '" + cisProfileEntity.Name + "'" ',NAME
         strSQL = strSQL + " ,[ADDRESS] = '" + cisProfileEntity.Address + "'" ',ADDRESS
         'strSQL = strSQL + " ,[DATEHIRED] = '" + cisProfileEntity.DateHired.ToString + "'" ',DATEHIRED
         strSQL = strSQL + " ,[FACULTYGROUP] = '" + cisProfileEntity.FacultyGroup + "'" ',FACULTYGROUP
         strSQL = strSQL + " ,[DEPARTMENT] = '" + cisProfileEntity.Department + "'" ',DEPARTMENT
         strSQL = strSQL + " ,[STATUS] = '" + cisProfileEntity.Status + "'" ',STATUS
-        strSQL = strSQL + " ,[USERNAME] = '" + cisProfileEntity.UserName + "'" ',USERNAME
-        strSQL = strSQL + " ,[PASSWORD] = '" + cisProfileEntity.Password + "'" ',PASSWORD
+        'strSQL = strSQL + " ,[USERNAME] = '" + cisProfileEntity.UserName + "'" ',USERNAME
+        'strSQL = strSQL + " ,[PASSWORD] = '" + cisProfileEntity.Password + "'" ',PASSWORD
         strSQL = strSQL + " ,[WORKEMAIL] = '" + cisProfileEntity.WorkEmail + "'" ',WORKEMAIL
         strSQL = strSQL + " ,[MOBILEPHONE] = '" + cisProfileEntity.MobilePhone + "'" ',MOBILEPHONE
         strSQL = strSQL + " ,[EXTENSION] = '" + cisProfileEntity.Extension + "'" ',EXTENSION
@@ -147,6 +147,55 @@ Public Class ProfileData
 
         cisProfileEntity.UpdatedBy = prflID
         cisProfileEntity.UpdateDate = CType(objParams(0).Value, Date)
+
+        Return True
+    End Function
+
+    Public Function SaveProfilePhoto(ByVal ProfileID As Long, ByVal WebSavedImage As String, ByVal prflID As Long) As Boolean
+
+        Dim strSQL As String
+        strSQL = "SET @NewUpdateDate = GETDATE();"
+        strSQL = strSQL + "UPDATE [dbo].[PROFILETBL] "
+        strSQL = strSQL + "Set [PHOTOURLPATH]='" + WebSavedImage + "'" ',[PHOTOURLPATH]
+        strSQL = strSQL + ",[UPDDT] = @NewUpdateDate"
+        strSQL = strSQL + ",[UPDBY] = '" + prflID.ToString + "'"
+        strSQL = strSQL + "WHERE [PROFILEID]=" + ProfileID.ToString
+
+        Dim objParams(0) As SqlParameter
+        objParams(0) = New SqlParameter("@NewUpdateDate", SqlDbType.DateTime)
+        objParams(0).Value = Now
+        objParams(0).Direction = ParameterDirection.InputOutput
+
+        Dim objCommon As New CommonClass
+        Dim objData As New SQLHelper
+        Dim intRet As Integer = 0
+
+        intRet = SQLHelper.ExecuteNonQuery(objCommon.GetConnString, CommandType.Text, strSQL, objParams)
+
+        Return True
+    End Function
+
+    Public Function SaveProfileUsrnamePwd(ByVal ProfileID As Long, ByVal usrName As String, ByVal pwd As String, ByVal prflID As Long) As Boolean
+
+        Dim strSQL As String
+        strSQL = "SET @NewUpdateDate = GETDATE();"
+        strSQL = strSQL + "UPDATE [dbo].[PROFILETBL] "
+        strSQL = strSQL + "Set [USERNAME]='" + usrName + "'" ',[USERNAME]
+        strSQL = strSQL + ",[PASSWORD] = '" + pwd + "'" '[PASSWORD]
+        strSQL = strSQL + ",[UPDDT] = @NewUpdateDate"
+        strSQL = strSQL + ",[UPDBY] = '" + prflID.ToString + "'"
+        strSQL = strSQL + "WHERE [PROFILEID]=" + ProfileID.ToString
+
+        Dim objParams(0) As SqlParameter
+        objParams(0) = New SqlParameter("@NewUpdateDate", SqlDbType.DateTime)
+        objParams(0).Value = Now
+        objParams(0).Direction = ParameterDirection.InputOutput
+
+        Dim objCommon As New CommonClass
+        Dim objData As New SQLHelper
+        Dim intRet As Integer = 0
+
+        intRet = SQLHelper.ExecuteNonQuery(objCommon.GetConnString, CommandType.Text, strSQL, objParams)
 
         Return True
     End Function
@@ -208,7 +257,7 @@ Public Class ProfileData
                         .PhotoUrlPath = CType(curRow("PHOTOURLPATH"), String) ',PHOTOURLPATH
                         .Name = CType(curRow("NAME"), String) ',NAME
                         .Address = CType(curRow("ADDRESS"), String) ',ADDRESS
-                        .DateHired = CType(curRow("DATEHIRED"), DateTime) ',DATEHIRED
+                        ' .DateHired = CType(curRow("DATEHIRED"), DateTime) ',DATEHIRED
                         .FacultyGroup = CType(curRow("FACULTYGROUP"), String) ',FACULTYGROUP
                         .Department = CType(curRow("DEPARTMENT"), String) ',DEPARTMENT
                         .Status = CType(curRow("STATUS"), String) ',STATUS
@@ -295,7 +344,7 @@ Public Class ProfileData
                         .PhotoUrlPath = CType(curRow("PHOTOURLPATH"), String) ',PHOTOURLPATH
                         .Name = CType(curRow("NAME"), String) ',NAME
                         .Address = CType(curRow("ADDRESS"), String) ',ADDRESS
-                        .DateHired = CType(curRow("DATEHIRED"), DateTime) ',DATEHIRED
+                        '.DateHired = CType(curRow("DATEHIRED"), DateTime) ',DATEHIRED
                         .FacultyGroup = CType(curRow("FACULTYGROUP"), String) ',FACULTYGROUP
                         .Department = CType(curRow("DEPARTMENT"), String) ',DEPARTMENT
                         .Status = CType(curRow("STATUS"), String) ',STATUS

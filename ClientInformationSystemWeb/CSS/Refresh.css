@@ -113,9 +113,9 @@ form {
 	background-color: #FAFAFA; 
 }
 label {
-	display:block;
+	/*display:block;*/
 	/*font-weight:bold;*/
-	margin:5px 0;
+	/*margin:5px 0;*/
     font-size:smaller;
 }
 input {
@@ -366,7 +366,7 @@ form.search input.button {
 #footer {
 	color: #666666;
 	background: #CCC url(footer.jpg) no-repeat center top;
-	clear: both;
+	/*clear: both;*/
 	width: 820px;
 	height: 55px;
 	text-align: center;	

@@ -264,5 +264,47 @@ Public Class FileAttachData
         Return Nothing
     End Function
 
+    Public Function GetTechReportAttachmentsList(ByVal TRID As Long) As DataTable
+        Dim ds As New DataSet
+        Dim dt As New DataTable
+        Dim objCommon As New CommonClass
+        Dim strSQL As String = Nothing
 
+        strSQL = "SELECT * FROM dbo.FILEATTACHTBL"
+        strSQL = strSQL + " WHERE"
+        strSQL = strSQL + " (ATTACHMENTTYPE = 'TR')"
+        strSQL = strSQL + " AND (PARENTID = " + TRID.ToString + ")"
+        strSQL = strSQL + " AND (ISACTIVEFLG = 1)"
+        strSQL = strSQL + " AND (PURGEFLG = 0)"
+
+        ds = SQLHelper.ExecuteDataSet(objCommon.GetConnString, CommandType.Text, strSQL)
+        If ds.Tables.Count > 0 Then
+            Return ds.Tables(0)
+        Else
+            Return Nothing
+        End If
+        Return Nothing
+    End Function
+
+    Public Function GetServiceJobAttachmentsList(ByVal ServiceJobID As Long) As DataTable
+        Dim ds As New DataSet
+        Dim dt As New DataTable
+        Dim objCommon As New CommonClass
+        Dim strSQL As String = Nothing
+
+        strSQL = "SELECT * FROM dbo.FILEATTACHTBL"
+        strSQL = strSQL + " WHERE"
+        strSQL = strSQL + " (ATTACHMENTTYPE = 'SJ')"
+        strSQL = strSQL + " AND (PARENTID = " + ServiceJobID.ToString + ")"
+        strSQL = strSQL + " AND (ISACTIVEFLG = 1)"
+        strSQL = strSQL + " AND (PURGEFLG = 0)"
+
+        ds = SQLHelper.ExecuteDataSet(objCommon.GetConnString, CommandType.Text, strSQL)
+        If ds.Tables.Count > 0 Then
+            Return ds.Tables(0)
+        Else
+            Return Nothing
+        End If
+        Return Nothing
+    End Function
 End Class

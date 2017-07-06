@@ -53,22 +53,7 @@ Public Class _default5
             Me.txtDEVICESPECS.Text = entDevice.DeviceSpecifications
             Me.ddStatus.SelectedValue = entDevice.Status
             Me.txtMANUFACTUREDATE.Text = entDevice.ManufactureDate.ToString
-            'If IsDate(entDevice.ManufactureDate) Then
-            '    Me.txtMANUFACTUREDATE.TextMode = TextBoxMode.DateTime
-            '    Me.txtMANUFACTUREDATE.Text = CType(entDevice.ManufactureDate, DateTime).ToString("M/d/yyyy")
-            '    Me.txtMANUFACTUREDATE.TextMode = TextBoxMode.Date
-
-            'Else
-            '    Me.txtMANUFACTUREDATE.Text = ""
-            'End If
-
             Me.txtRECEIVEDATE.Text = entDevice.ReceiveDate.ToString
-            'If IsDate(entDevice.ReceiveDate) Then
-            '    Me.txtRECEIVEDATE.Text = CType(entDevice.ReceiveDate, DateTime).ToString
-            'Else
-            '    Me.txtRECEIVEDATE.Text = ""
-            'End If
-
             Me.chkIsAvailable.Checked = entDevice.IsAvailable
             Me.chkIsActive.Checked = entDevice.IsActiveFlag
             Me.chkPurge.Checked = entDevice.PurgeFlag
@@ -101,7 +86,7 @@ Public Class _default5
             Me.txtDEVICETYPE.Text = ""
             Me.txtSERIALNUMBER.Text = ""
             Me.txtDEVICESPECS.Text = ""
-            Me.txtMANUFACTUREDATE.Text = Now.ToShortDateString
+            Me.txtMANUFACTUREDATE.Text = Now.ToString
             Me.ddStatus.SelectedValue = ""
             Me.txtRECEIVEDATE.Text = Now.ToString
             Me.chkIsAvailable.Checked = True
@@ -150,8 +135,19 @@ Public Class _default5
             entDevice.SerialNumber = Me.txtSERIALNUMBER.Text
             entDevice.DeviceSpecifications = Me.txtDEVICESPECS.Text
             entDevice.Status = Me.ddStatus.SelectedValue
-            entDevice.ManufactureDate = CType(Me.txtMANUFACTUREDATE.Text, Date)
-            entDevice.ReceiveDate = CType(Me.txtRECEIVEDATE.Text, Date)
+            If IsDate(Me.txtMANUFACTUREDATE.Text) Then
+                entDevice.ManufactureDate = CType(Me.txtMANUFACTUREDATE.Text, DateTime)
+            Else
+                entDevice.ManufactureDate = Date.Parse(Me.txtMANUFACTUREDATE.Text, System.Globalization.CultureInfo.GetCultureInfo("us-au").DateTimeFormat) 'CType(Me.txtMANUFACTUREDATE.Text, Date)
+            End If
+
+            If IsDate(Me.txtRECEIVEDATE.Text) Then
+                entDevice.ReceiveDate = CType(Me.txtRECEIVEDATE.Text, DateTime)
+            Else
+                entDevice.ReceiveDate = Date.Parse(Me.txtRECEIVEDATE.Text, System.Globalization.CultureInfo.GetCultureInfo("us-au").DateTimeFormat)
+            End If
+
+            'CType(Me.txtRECEIVEDATE.Text, Date)
             entDevice.IsAvailable = Me.chkIsAvailable.Checked
             entDevice.IPAddress = Me.txtIPADDRESS.Text
             entDevice.BrandType = Me.txtBRANDTYPE.Text

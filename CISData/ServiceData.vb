@@ -250,4 +250,96 @@ Public Class ServiceData
         ds.Dispose()
         Return objServiceEntityList
     End Function
+
+    Public Function SearchServiceJobbyClientService(ByVal ClientID As Long, ByVal ServiceID As Long) As DataTable
+
+        Dim strSQL As String = ""
+        strSQL &= " SELECT "
+        strSQL &= " TSWORKTBL.TSWORKID, CLIENTTBL.NAME AS CLIENTNAME, SERVICETBL.SERVIENAME AS SERVICENAME, TSWORKTBL.PONUMBER, "
+        strSQL &= " TSWORKTBL.QUOTATIONNUMBER, TSWORKTBL.STATUS, TSWORKTBL.QUOTEDATE, TSWORKTBL.SERVICEJOBNUMBER "
+        strSQL &= " FROM "
+        strSQL &= " SERVICETBL INNER JOIN "
+        strSQL &= " CLIENTSERVICETBL INNER JOIN "
+        strSQL &= " CLIENTTBL ON CLIENTSERVICETBL.CLIENTID = CLIENTTBL.CLIENTID ON SERVICETBL.SVCID = CLIENTSERVICETBL.SVCID INNER JOIN "
+        strSQL &= " TSWORKTBL ON CLIENTSERVICETBL.CLIENTSVCID = TSWORKTBL.CLSVCID "
+        strSQL &= " WHERE CLIENTTBL.CLIENTID = " + ClientID.ToString + " AND SERVICETBL.SVCID  = " + ServiceID.ToString + " "
+
+        Dim objCommon As New CISData.CommonClass
+        Return SQLHelper.ExecuteTable(objCommon.GetConnString, CommandType.Text, strSQL)
+
+    End Function
+
+    Public Function SearchServiceJobbyPOnumber(ByVal PONumber As String) As DataTable
+
+        Dim strSQL As String = ""
+        strSQL &= " SELECT "
+        strSQL &= " TSWORKTBL.TSWORKID, CLIENTTBL.NAME AS CLIENTNAME, SERVICETBL.SERVIENAME AS SERVICENAME, TSWORKTBL.PONUMBER, "
+        strSQL &= " TSWORKTBL.QUOTATIONNUMBER, TSWORKTBL.STATUS, TSWORKTBL.QUOTEDATE, TSWORKTBL.SERVICEJOBNUMBER "
+        strSQL &= " FROM "
+        strSQL &= " SERVICETBL INNER JOIN "
+        strSQL &= " CLIENTSERVICETBL INNER JOIN "
+        strSQL &= " CLIENTTBL ON CLIENTSERVICETBL.CLIENTID = CLIENTTBL.CLIENTID ON SERVICETBL.SVCID = CLIENTSERVICETBL.SVCID INNER JOIN "
+        strSQL &= " TSWORKTBL ON CLIENTSERVICETBL.CLIENTSVCID = TSWORKTBL.CLSVCID "
+        strSQL &= " WHERE TSWORKTBL.PONUMBER LIKE '%" + PONumber + "%' "
+
+        Dim objCommon As New CISData.CommonClass
+        Return SQLHelper.ExecuteTable(objCommon.GetConnString, CommandType.Text, strSQL)
+
+    End Function
+
+    Public Function SearchServiceJobbySJnumber(ByVal ServiceJobNumber As String) As DataTable
+
+        Dim strSQL As String = ""
+        strSQL &= " SELECT "
+        strSQL &= " TSWORKTBL.TSWORKID, CLIENTTBL.NAME AS CLIENTNAME, SERVICETBL.SERVIENAME AS SERVICENAME, TSWORKTBL.PONUMBER, "
+        strSQL &= " TSWORKTBL.QUOTATIONNUMBER, TSWORKTBL.STATUS, TSWORKTBL.QUOTEDATE,TSWORKTBL.SERVICEJOBNUMBER "
+        strSQL &= " FROM "
+        strSQL &= " SERVICETBL INNER JOIN "
+        strSQL &= " CLIENTSERVICETBL INNER JOIN "
+        strSQL &= " CLIENTTBL ON CLIENTSERVICETBL.CLIENTID = CLIENTTBL.CLIENTID ON SERVICETBL.SVCID = CLIENTSERVICETBL.SVCID INNER JOIN "
+        strSQL &= " TSWORKTBL ON CLIENTSERVICETBL.CLIENTSVCID = TSWORKTBL.CLSVCID "
+        strSQL &= " WHERE TSWORKTBL.SERVICEJOBNUMBER LIKE '%" + ServiceJobNumber + "%' "
+
+        Dim objCommon As New CISData.CommonClass
+        Return SQLHelper.ExecuteTable(objCommon.GetConnString, CommandType.Text, strSQL)
+
+    End Function
+
+    Public Function SearchServiceJobbyQuotationNumber(ByVal QuotationNumber As String) As DataTable
+
+        Dim strSQL As String = ""
+        strSQL &= " SELECT "
+        strSQL &= " TSWORKTBL.TSWORKID, CLIENTTBL.NAME AS CLIENTNAME, SERVICETBL.SERVIENAME AS SERVICENAME, TSWORKTBL.PONUMBER, "
+        strSQL &= " TSWORKTBL.QUOTATIONNUMBER, TSWORKTBL.STATUS, TSWORKTBL.QUOTEDATE,TSWORKTBL.SERVICEJOBNUMBER "
+        strSQL &= " FROM "
+        strSQL &= " SERVICETBL INNER JOIN "
+        strSQL &= " CLIENTSERVICETBL INNER JOIN "
+        strSQL &= " CLIENTTBL ON CLIENTSERVICETBL.CLIENTID = CLIENTTBL.CLIENTID ON SERVICETBL.SVCID = CLIENTSERVICETBL.SVCID INNER JOIN "
+        strSQL &= " TSWORKTBL ON CLIENTSERVICETBL.CLIENTSVCID = TSWORKTBL.CLSVCID "
+        strSQL &= " WHERE TSWORKTBL.QUOTATIONNUMBER LIKE '%" + QuotationNumber + "%' "
+        strSQL &= " AND TSWORKTBL.ISACTIVEFLG= 1 AND TSWORKTBL.PURGEFLG = 0"
+
+        Dim objCommon As New CISData.CommonClass
+        Return SQLHelper.ExecuteTable(objCommon.GetConnString, CommandType.Text, strSQL)
+
+    End Function
+
+    Public Function SearchServiceJobbyQuotationDates(ByVal dateFrom As Date, ByVal dateTo As Date) As DataTable
+
+        Dim strSQL As String = ""
+        strSQL &= " SELECT "
+        strSQL &= " TSWORKTBL.TSWORKID, CLIENTTBL.NAME AS CLIENTNAME, SERVICETBL.SERVIENAME AS SERVICENAME, TSWORKTBL.PONUMBER, "
+        strSQL &= " TSWORKTBL.QUOTATIONNUMBER, TSWORKTBL.STATUS, TSWORKTBL.QUOTEDATE ,TSWORKTBL.SERVICEJOBNUMBER "
+        strSQL &= " FROM "
+        strSQL &= " SERVICETBL INNER JOIN "
+        strSQL &= " CLIENTSERVICETBL INNER JOIN "
+        strSQL &= " CLIENTTBL ON CLIENTSERVICETBL.CLIENTID = CLIENTTBL.CLIENTID ON SERVICETBL.SVCID = CLIENTSERVICETBL.SVCID INNER JOIN "
+        strSQL &= " TSWORKTBL ON CLIENTSERVICETBL.CLIENTSVCID = TSWORKTBL.CLSVCID "
+        strSQL &= " WHERE TSWORKTBL.QUOTEDATE between '" + dateFrom.ToString("MM/dd/yyyy") + "' AND '" + dateTo.ToString("MM/dd/yyyy") + "' "
+        strSQL &= " AND TSWORKTBL.ISACTIVEFLG= 1 AND TSWORKTBL.PURGEFLG = 0"
+
+        Dim objCommon As New CISData.CommonClass
+        Return SQLHelper.ExecuteTable(objCommon.GetConnString, CommandType.Text, strSQL)
+
+    End Function
 End Class

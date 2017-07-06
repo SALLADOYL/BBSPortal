@@ -235,5 +235,22 @@ Public Class RoleData
         Return listRoleEntity
     End Function
 
+    Public Function GetRoleUsers(ByVal Roleid As Long) As DataTable
+        Dim strSQL As String = ""
+
+        strSQL &= " SELECT "
+        strSQL &= " PROFILEOBJACCESSTBL.PRFLOBJACCID, PROFILEOBJACCESSTBL.PROFILEID, PROFILETBL.EMPLOYEECODE, PROFILETBL.NAME "
+        strSQL &= " FROM "
+        strSQL &= " ROLETBL INNER JOIN "
+        strSQL &= " PROFILEOBJACCESSTBL ON ROLETBL.ROLEID = PROFILEOBJACCESSTBL.ROLEID INNER JOIN "
+        strSQL &= " PROFILETBL ON PROFILEOBJACCESSTBL.PROFILEID = PROFILETBL.PROFILEID "
+        strSQL &= " WHERE "
+        strSQL &= " PROFILETBL.ISACTIVEFLG=1 AND PROFILETBL.PURGEFLG=0 "
+        strSQL &= " AND ROLETBL.ROLEID =" & Roleid.ToString
+
+        Dim objCommon As New CISData.CommonClass
+        Return SQLHelper.ExecuteTable(objCommon.GetConnString, CommandType.Text, strSQL)
+
+    End Function
 
 End Class

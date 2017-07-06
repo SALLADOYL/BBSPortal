@@ -14,6 +14,42 @@ Option Explicit On
 Partial Public Class _default4
     
     '''<summary>
+    '''PageMain control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents PageMain As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''cpeSearch control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents cpeSearch As Global.AjaxControlToolkit.CollapsiblePanelExtender
+    
+    '''<summary>
+    '''pnlSearch control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlSearch As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
+    '''lblPeopleSearchTool control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents lblPeopleSearchTool As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
     '''txtIDSearch control.
     '''</summary>
     '''<remarks>
@@ -84,6 +120,15 @@ Partial Public Class _default4
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents dgEmpResults As Global.System.Web.UI.WebControls.DataGrid
+    
+    '''<summary>
+    '''pnlInput control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlInput As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
     '''txtProfileID control.
@@ -212,6 +257,24 @@ Partial Public Class _default4
     Protected WithEvents chkIsActive As Global.System.Web.UI.WebControls.CheckBox
     
     '''<summary>
+    '''btnSave control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSave As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''btnNew control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnNew As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
     '''lblCreatedBy control.
     '''</summary>
     '''<remarks>
@@ -248,22 +311,13 @@ Partial Public Class _default4
     Protected WithEvents lblUpdateDt As Global.System.Web.UI.WebControls.Label
     
     '''<summary>
-    '''btnSave control.
+    '''lblServiceAcquired control.
     '''</summary>
     '''<remarks>
     '''Auto-generated field.
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
-    Protected WithEvents btnSave As Global.System.Web.UI.WebControls.Button
-    
-    '''<summary>
-    '''btnNew control.
-    '''</summary>
-    '''<remarks>
-    '''Auto-generated field.
-    '''To modify move field declaration from designer file to code-behind file.
-    '''</remarks>
-    Protected WithEvents btnNew As Global.System.Web.UI.WebControls.Button
+    Protected WithEvents lblServiceAcquired As Global.System.Web.UI.HtmlControls.HtmlGenericControl
     
     '''<summary>
     '''imgPhoto control.
@@ -284,6 +338,96 @@ Partial Public Class _default4
     Protected WithEvents btnUploadPhoto As Global.System.Web.UI.WebControls.Button
     
     '''<summary>
+    '''H2 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents H2 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
+    '''btnSetProfileAccess control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSetProfileAccess As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''mpeUploadPhoto control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents mpeUploadPhoto As Global.AjaxControlToolkit.ModalPopupExtender
+    
+    '''<summary>
+    '''pnlUploadPhotoModal control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlUploadPhotoModal As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
+    '''fileInput1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents fileInput1 As Global.System.Web.UI.HtmlControls.HtmlInputFile
+    
+    '''<summary>
+    '''btnUploadSavePhoto control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnUploadSavePhoto As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''btnCancelUpload control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnCancelUpload As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''mpeProfileAccess control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents mpeProfileAccess As Global.AjaxControlToolkit.ModalPopupExtender
+    
+    '''<summary>
+    '''pnlProfileAccessModal control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents pnlProfileAccessModal As Global.System.Web.UI.WebControls.Panel
+    
+    '''<summary>
+    '''H1 control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents H1 As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+    
+    '''<summary>
     '''txtUsername control.
     '''</summary>
     '''<remarks>
@@ -300,4 +444,22 @@ Partial Public Class _default4
     '''To modify move field declaration from designer file to code-behind file.
     '''</remarks>
     Protected WithEvents txtPassword As Global.System.Web.UI.WebControls.TextBox
+    
+    '''<summary>
+    '''btnSaveUsrPwd control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnSaveUsrPwd As Global.System.Web.UI.WebControls.Button
+    
+    '''<summary>
+    '''btnCancelProfileAccess control.
+    '''</summary>
+    '''<remarks>
+    '''Auto-generated field.
+    '''To modify move field declaration from designer file to code-behind file.
+    '''</remarks>
+    Protected WithEvents btnCancelProfileAccess As Global.System.Web.UI.WebControls.Button
 End Class

@@ -40,8 +40,8 @@ Public Class TechReportData
         strSQL = strSQL + ",'" + cisTechnicalReportEntity.ProposedDetails + "'" ',[]
         strSQL = strSQL + ",'" + cisTechnicalReportEntity.ClientServiceID.ToString + "'" ',[CLIENTSVCID]
         strSQL = strSQL + ",'" + cisTechnicalReportEntity.Status + "'" ',[STATUS]
-        strSQL = strSQL + ",'" + cisTechnicalReportEntity.StartDate.ToString + "'" ',[STARTDT]
-        strSQL = strSQL + ",'" + cisTechnicalReportEntity.CompletionDate.ToString + "'" ',[COMPLETEDT]
+        strSQL = strSQL + ",'" + cisTechnicalReportEntity.StartDate.ToString("MM/dd/yyyy HH:mm:ss") + "'" ',[STARTDT]
+        strSQL = strSQL + ",'" + cisTechnicalReportEntity.CompletionDate.ToString("MM/dd/yyyy HH:mm:ss") + "'" ',[COMPLETEDT]
         If cisTechnicalReportEntity.IsActiveFlag Then
             strSQL = strSQL + ",1" ',[ISACTIVEFLG]
         Else
@@ -97,8 +97,8 @@ Public Class TechReportData
         strSQL = strSQL + ",[PROPOSEDDETAILS] = '" + cisTechnicalReportEntity.ProposedDetails + "'"
         strSQL = strSQL + ",[CLIENTSVCID] = '" + cisTechnicalReportEntity.ClientServiceID.ToString + "'"
         strSQL = strSQL + ",[STATUS] = '" + cisTechnicalReportEntity.Status + "'"
-        strSQL = strSQL + ",[STARTDT] = '" + cisTechnicalReportEntity.StartDate.ToString + "'"
-        strSQL = strSQL + ",[COMPLETEDT] = '" + cisTechnicalReportEntity.CompletionDate.ToString + "'"
+        strSQL = strSQL + ",[STARTDT] = '" + cisTechnicalReportEntity.StartDate.ToString("MM/dd/yyyy HH:mm:ss") + "'"
+        strSQL = strSQL + ",[COMPLETEDT] = '" + cisTechnicalReportEntity.CompletionDate.ToString("MM/dd/yyyy HH:mm:ss") + "'"
         strSQL = strSQL + ",[REMARKS] = '" + cisTechnicalReportEntity.Remarks + "'"
         If cisTechnicalReportEntity.IsActiveFlag Then
             strSQL = strSQL + ",[ISACTIVEFLG]=1" ',[ISACTIVEFLG]
@@ -137,7 +137,7 @@ Public Class TechReportData
         Dim strSQL As String
         strSQL = "SET @NewUpdateDate = GETDATE();"
         strSQL = strSQL + "UPDATE [dbo].[TECHREPORTTBL] "
-        strSQL = strSQL + "Set [PURGEFLG]=1" ',[PURGEFLG]
+        strSQL = strSQL + "Set [ISACTIVEFLG]=0, [PURGEFLG]=1" ',[PURGEFLG]
         strSQL = strSQL + ",[UPDDT] = @NewUpdateDate"
         strSQL = strSQL + ",[UPDBY] = '" + prflID.ToString + "'"
         strSQL = strSQL + "WHERE [TECHREPID]=" + TECHREPID.ToString
@@ -301,7 +301,7 @@ Public Class TechReportData
         strSQL = strSQL + " CLIENTTBL ON CLIENTSERVICETBL.CLIENTID = CLIENTTBL.CLIENTID ON SERVICETBL.SVCID = CLIENTSERVICETBL.SVCID ON "
         strSQL = strSQL + " TECHREPORTTBL.CLIENTSVCID = CLIENTSERVICETBL.CLIENTSVCID LEFT OUTER JOIN "
         strSQL = strSQL + " TSWORKTBL ON TECHREPORTTBL.TSWORKID = TSWORKTBL.TSWORKID "
-        strSQL = strSQL + " WHERE TECHREPORTTBL.STARTDT BETWEEN '" + fromDT.ToShortDateString + "' AND '" + ToDT.ToShortDateString + "'"
+        strSQL = strSQL + " WHERE TECHREPORTTBL.STARTDT BETWEEN '" + fromDT.ToString("MM/dd/yyyy") + "' AND '" + ToDT.ToString("MM/dd/yyyy") + "'"
 
         Dim objCommon As New CISData.CommonClass
         Return SQLHelper.ExecuteTable(objCommon.GetConnString, CommandType.Text, strSQL)
@@ -321,7 +321,7 @@ Public Class TechReportData
         strSQL = strSQL + " CLIENTTBL ON CLIENTSERVICETBL.CLIENTID = CLIENTTBL.CLIENTID ON SERVICETBL.SVCID = CLIENTSERVICETBL.SVCID ON "
         strSQL = strSQL + " TECHREPORTTBL.CLIENTSVCID = CLIENTSERVICETBL.CLIENTSVCID LEFT OUTER JOIN "
         strSQL = strSQL + " TSWORKTBL ON TECHREPORTTBL.TSWORKID = TSWORKTBL.TSWORKID "
-        strSQL = strSQL + " WHERE TECHREPORTTBL.COMPLETEDT BETWEEN '" + fromDT.ToShortDateString + "' AND '" + ToDT.ToShortDateString + "'"
+        strSQL = strSQL + " WHERE TECHREPORTTBL.COMPLETEDT BETWEEN '" + fromDT.ToString("MM/dd/yyyy HH:mm:ss") + "' AND '" + ToDT.ToString("MM/dd/yyyy HH:mm:ss") + "'"
 
         Dim objCommon As New CISData.CommonClass
         Return SQLHelper.ExecuteTable(objCommon.GetConnString, CommandType.Text, strSQL)
@@ -371,18 +371,6 @@ Public Class TechReportData
     Public Function SearchTRbyClientService(ByVal ClientID As Long, ByVal ServiceID As Long) As DataTable
 
         Dim strSQL As String
-
-        '--SELECT
-        '--TECHREPORTTBL.TECHREPID, CLIENTTBL.NAME AS CLIENTNAME, 
-        '--SERVICETBL.SERVIENAME AS SERVICENAME, TECHREPORTTBL.STATUS AS TRSTATUS
-        '--, TSWORKTBL.PONUMBER, TECHREPORTTBL.STARTDT
-        '--FROM 
-        '--TECHREPORTTBL INNER JOIN SERVICETBL 
-        '--INNER JOIN CLIENTSERVICETBL INNER JOIN
-        '--CLIENTTBL ON CLIENTSERVICETBL.CLIENTID = CLIENTTBL.CLIENTID ON SERVICETBL.SVCID = CLIENTSERVICETBL.SVCID ON 
-        '--TECHREPORTTBL.CLIENTSVCID = CLIENTSERVICETBL.CLIENTSVCID LEFT OUTER JOIN
-        '--TSWORKTBL ON TECHREPORTTBL.TSWORKID = TSWORKTBL.TSWORKID
-
         strSQL = " SELECT "
         strSQL = strSQL + " TECHREPORTTBL.TECHREPID, CLIENTTBL.NAME AS CLIENTNAME,  "
         strSQL = strSQL + " SERVICETBL.SERVIENAME AS SERVICENAME, TECHREPORTTBL.STATUS AS TRSTATUS "
@@ -394,12 +382,6 @@ Public Class TechReportData
         strSQL = strSQL + " TECHREPORTTBL.CLIENTSVCID = CLIENTSERVICETBL.CLIENTSVCID LEFT OUTER JOIN "
         strSQL = strSQL + " TSWORKTBL ON TECHREPORTTBL.TSWORKID = TSWORKTBL.TSWORKID "
         strSQL = strSQL + " WHERE CLIENTTBL.CLIENTID = " + ClientID.ToString + " AND SERVICETBL.SVCID  = " + ServiceID.ToString + " "
-        '--OR TECHREPORTTBL.STARTDT BETWEEN '' AND ''
-        '--OR TECHREPORTTBL.COMPLETEDT BETWEEN '' AND ''
-        '--OR TECHREPORTTBL.STATUS = ''
-        '--OR TECHREPORTTBL.TEAM = 
-        'strSQL = strSQL + " WHERE [TECHREPID]= " + lngTechRepID.ToString
-
 
         Dim objCommon As New CISData.CommonClass
         Return SQLHelper.ExecuteTable(objCommon.GetConnString, CommandType.Text, strSQL)

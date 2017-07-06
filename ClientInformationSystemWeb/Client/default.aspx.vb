@@ -645,8 +645,6 @@ Public Class _default3
     Private Sub dgFiles_DeleteCommand(source As Object, e As DataGridCommandEventArgs) Handles dgFiles.DeleteCommand
         Dim modFiles As New CISModel.ClientModel
         modFiles.FilePurge(CType(e.Item.Cells(1).Text, Long), GetUserProfile.ProfileID)
-        'modFiles.DeleteNote(CType(e.Item.Cells(1).Text, Long), GetUserProfile.ProfileID)
-        'modFiles = Nothing
 
         Dim strErr As String = "File Attachment  Deleted!"
         Dim objAlert As New DynamicClientScript
@@ -665,5 +663,10 @@ Public Class _default3
         Me.mpeShareURL.Show()
     End Sub
 
-
+    Private Sub btnPrintPrev_Click(sender As Object, e As EventArgs) Handles btnPrintPrev.Click
+        Dim modWeb As New CISModel.WebModel
+        Dim strDownload As String = modWeb.GetWebAppURL() + "CISReportViewer/?RptType=ClientReportSingle&ID=" + Me.txtCLIENTID.Text
+        Response.Write("<script type='text/javascript'>window.open('" + strDownload + "');</script>")
+        modWeb = Nothing
+    End Sub
 End Class

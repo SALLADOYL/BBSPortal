@@ -160,13 +160,13 @@ Public Class TSWorkEntity
     End Property
 
     '[CLIENTSIGNEDBY]
-    Private lngClientSignedBy As Long
-    Public Property ClientSignedBy As Long
+    Private strClientSignedBy As String
+    Public Property ClientSignedBy As String
         Get
-            Return lngClientSignedBy
+            Return strClientSignedBy
         End Get
-        Set(value As Long)
-            lngClientSignedBy = value
+        Set(value As String)
+            strClientSignedBy = value
         End Set
     End Property
 

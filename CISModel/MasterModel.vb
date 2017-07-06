@@ -43,6 +43,12 @@ Public Class MasterModel
         Return SQLHelper.ExecuteTable(objCommon.GetConnString, CommandType.Text, strCmdText)
     End Function
 
+    Public Function GetServiceJobStatusList() As DataTable
+        Dim objCommon As New CISData.CommonClass
+        Dim strCmdText As String = "Select STATUS from STATUSMASTERTBL WHERE STATUSTYPE = 'SERVICEJOB'"
+        Return SQLHelper.ExecuteTable(objCommon.GetConnString, CommandType.Text, strCmdText)
+    End Function
+
 
 
     Public Function GetFacultyGroupList() As DataTable

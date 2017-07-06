@@ -12,6 +12,11 @@ Public Class WebModel
         Return objweb.GetWebAppURL
     End Function
 
+    Public Function GetCISTechReportPath() As String
+        Dim objweb As New WebUtility
+
+    End Function
+
 
     Public Function MasterEncrypt(ByVal text As String) As String
 
